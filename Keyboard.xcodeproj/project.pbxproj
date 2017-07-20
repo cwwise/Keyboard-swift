@@ -22,6 +22,12 @@
 		1F8D6D4B1F20BD8500E8A6E6 /* EmoticonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D431F20BD8500E8A6E6 /* EmoticonCell.swift */; };
 		1F8D6D4C1F20BD8500E8A6E6 /* EmoticonInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D441F20BD8500E8A6E6 /* EmoticonInputView.swift */; };
 		1F8D6D4E1F20C3E800E8A6E6 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D4D1F20C3E800E8A6E6 /* UIView+Frame.swift */; };
+		1F8D6D511F20C95B00E8A6E6 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D501F20C95B00E8A6E6 /* Keyboard.swift */; };
+		1F8D6D531F20C9A400E8A6E6 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D521F20C9A400E8A6E6 /* ToolView.swift */; };
+		1F8D6D561F20C9D100E8A6E6 /* MoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */; };
+		1F8D6D581F20C9E800E8A6E6 /* MoreItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */; };
+		1F8D6D5A1F20C9F700E8A6E6 /* MoreInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */; };
+		1F8D6D5C1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +60,12 @@
 		1F8D6D431F20BD8500E8A6E6 /* EmoticonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonCell.swift; sourceTree = "<group>"; };
 		1F8D6D441F20BD8500E8A6E6 /* EmoticonInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonInputView.swift; sourceTree = "<group>"; };
 		1F8D6D4D1F20C3E800E8A6E6 /* UIView+Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Frame.swift"; sourceTree = "<group>"; };
+		1F8D6D501F20C95B00E8A6E6 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		1F8D6D521F20C9A400E8A6E6 /* ToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
+		1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreItem.swift; sourceTree = "<group>"; };
+		1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreItemCell.swift; sourceTree = "<group>"; };
+		1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInputView.swift; sourceTree = "<group>"; };
+		1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreCollectionLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +111,7 @@
 				1F8D6D1E1F20BD4B00E8A6E6 /* ViewController.swift */,
 				1F8D6D4D1F20C3E800E8A6E6 /* UIView+Frame.swift */,
 				1F8D6D4F1F20C51400E8A6E6 /* Class */,
+				1F8D6D541F20C9B800E8A6E6 /* More */,
 				1F8D6D3C1F20BD8500E8A6E6 /* Emoticon */,
 				1F8D6D201F20BD4B00E8A6E6 /* Main.storyboard */,
 				1F8D6D231F20BD4B00E8A6E6 /* Assets.xcassets */,
@@ -135,8 +148,21 @@
 		1F8D6D4F1F20C51400E8A6E6 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				1F8D6D501F20C95B00E8A6E6 /* Keyboard.swift */,
+				1F8D6D521F20C9A400E8A6E6 /* ToolView.swift */,
 			);
 			path = Class;
+			sourceTree = "<group>";
+		};
+		1F8D6D541F20C9B800E8A6E6 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */,
+				1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */,
+				1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */,
+				1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */,
+			);
+			path = More;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,16 +268,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8D6D531F20C9A400E8A6E6 /* ToolView.swift in Sources */,
 				1F8D6D1F1F20BD4B00E8A6E6 /* ViewController.swift in Sources */,
 				1F8D6D4C1F20BD8500E8A6E6 /* EmoticonInputView.swift in Sources */,
 				1F8D6D481F20BD8500E8A6E6 /* EmoticonPreviewer.swift in Sources */,
 				1F8D6D461F20BD8500E8A6E6 /* EmoticonGroup.swift in Sources */,
+				1F8D6D581F20C9E800E8A6E6 /* MoreItemCell.swift in Sources */,
+				1F8D6D561F20C9D100E8A6E6 /* MoreItem.swift in Sources */,
 				1F8D6D4B1F20BD8500E8A6E6 /* EmoticonCell.swift in Sources */,
 				1F8D6D1D1F20BD4B00E8A6E6 /* AppDelegate.swift in Sources */,
 				1F8D6D4A1F20BD8500E8A6E6 /* EmoticonToolView.swift in Sources */,
 				1F8D6D471F20BD8500E8A6E6 /* EmoticonInputViewLayout.swift in Sources */,
 				1F8D6D451F20BD8500E8A6E6 /* Emoticon.swift in Sources */,
+				1F8D6D5A1F20C9F700E8A6E6 /* MoreInputView.swift in Sources */,
 				1F8D6D491F20BD8500E8A6E6 /* EmoticonToolItemCell.swift in Sources */,
+				1F8D6D511F20C95B00E8A6E6 /* Keyboard.swift in Sources */,
+				1F8D6D5C1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift in Sources */,
 				1F8D6D4E1F20C3E800E8A6E6 /* UIView+Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
