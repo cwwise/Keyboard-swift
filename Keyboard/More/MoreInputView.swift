@@ -13,10 +13,10 @@ protocol MoreInputViewDelegate: NSObjectProtocol {
 }
 
 class MoreInputView: UIView {
-
+    
+    weak var delegate: MoreInputViewDelegate?
+    
     fileprivate var items = [MoreItem]()
-
-    weak var deleagte: MoreInputViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

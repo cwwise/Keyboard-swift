@@ -45,9 +45,9 @@ class EmoticonToolView: UIView {
     // 发送按钮
     let sendButton: UIButton = {
        let sendButton = UIButton(type: .custom)
-        sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        sendButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10 + 8, 0, 8)
-        sendButton.setTitle("Send", for: .normal)
+        sendButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
+        sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        sendButton.setTitle("发送", for: .normal)
         sendButton.setTitleColor(.white, for: .normal)
         sendButton.setTitleColor(.lightGray, for: .highlighted)
         sendButton.setTitleColor(.gray, for: .disabled)
@@ -60,11 +60,10 @@ class EmoticonToolView: UIView {
         return sendButton
     }()
     
-    // 发送按钮
+    // 设置
     let settingButton: UIButton = {
         let settingButton = UIButton(type: .custom)
         
-        settingButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         settingButton.setImage(UIImage(named: "EmotionsSetting"), for: .normal)
         settingButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .normal)
         settingButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .highlighted)
@@ -72,11 +71,27 @@ class EmoticonToolView: UIView {
         return settingButton
     }()
     
-    var addButton: UIButton = {
+    lazy var addButton: UIButton = {
         let addButton = UIButton(type: .custom)
         addButton.setImage(UIImage(named: "EmotionsBagAdd"), for: .normal)
+        addButton.frame = CGRect(x: 0, y: 0, width: itemWidth, height: self.height)
+
+        // 添加一条线
+        let line: CALayer = CALayer()
+        line.backgroundColor = UIColor(white: 0.9, alpha: 1.0).cgColor
+        line.frame = CGRect(x: itemWidth-0.5, y: 8, width: 0.5, height: self.height - 2*8)
+        addButton.layer.addSublayer(line)
+        
         return addButton
     }()
+    
+    func loadData(_ groupList: [EmoticonGroup]) {
+        if groupList == self.groupList {
+            return
+        }
+        self.groupList = groupList
+        self.collectionView.reloadData()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,11 +102,11 @@ class EmoticonToolView: UIView {
         self.addSubview(sendButton)
         self.addSubview(settingButton)
         
-        addButton.frame = CGRect(x: 0, y: 0, width: itemWidth, height: self.height)
-        collectionView.frame = CGRect(x: itemWidth, y: 0, width: self.width-itemWidth, height: self.height)
+        collectionView.frame = CGRect(x: addButton.right, y: 0, width: self.width-itemWidth, height: self.height)
         
-        sendButton.frame = CGRect(x: self.width-itemWidth, y: 0, width: itemWidth, height: self.height)
-        settingButton.frame = CGRect(x: self.width, y: 0, width: itemWidth, height: self.height)
+        let buttonWidth: CGFloat = 52
+        sendButton.frame = CGRect(x: self.width-buttonWidth, y: 0, width: buttonWidth, height: self.height)
+        settingButton.frame = CGRect(x: self.width, y: 0, width: buttonWidth, height: self.height)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -116,7 +131,9 @@ extension EmoticonToolView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonToolItemCell
-        cell.group = groupList[indexPath.row]
+        
+        cell.imageView.image = UIImage(contentsOfFile: groupList[indexPath.row].icon)
+
         return cell
     }
     

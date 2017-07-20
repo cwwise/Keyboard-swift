@@ -19,37 +19,44 @@ class Emoticon: NSObject {
     
     /// 表情类型
     var type: EmoticonType
+    
+    var id: String?
     /// 文字
-    var chs: String?
+    var title: String?
     /// 图片路径
     var png: String?
     
     var gif: String?
 
-    ///表情图片的路径
+    // 表情emotion
     var code: String?
 
     convenience init(code: String) {
         self.init(code: code, type: .emoji)
     }
     
-    convenience init(chs: String, png: String) {
-        self.init(chs: chs, png: png, type: .image)
+    convenience init(title: String, png: String) {
+        self.init(title: title, png: png, type: .image)
     }
     
-    convenience init(express chs: String, png: String, gif: String) {
-        self.init(chs: chs, png: png, gif: gif, type: .expression)
+    convenience init(express title: String, png: String, gif: String? = nil) {
+        self.init(title: title, png: png, gif: gif, type: .expression)
     }
     
-    private init(chs: String? = nil,
+    private init(title: String? = nil,
                  png: String? = nil,
                  code: String? = nil,
                  gif: String? = nil,
                  type: EmoticonType) {
-        self.chs = chs
+        self.title = title
         self.png = png
         self.type = type
         self.code = code
     }
     
 }
+
+
+
+
+

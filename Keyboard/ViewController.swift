@@ -12,7 +12,29 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+
+        testEmoticon()
+    }
+    
+    func testEmoticon() {
+        
+        var groupList = [EmoticonGroup]()
+        if let qqemoticon = EmoticonGroup(identifier: "com.qq.classic") {
+            groupList.append(qqemoticon)
+        }
+        
+        if let liemoticon = EmoticonGroup(identifier: "cn.com.a-li") {
+            groupList.append(liemoticon)
+        }
+        
+        let height: CGFloat = 216
+        let frame = CGRect(x: 0, y: self.view.height - height, width: self.view.width, height: height)
+        let inputView = EmoticonInputView(frame: frame)
+        inputView.groupList = groupList
+        self.view.addSubview(inputView)
+        
+        inputView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

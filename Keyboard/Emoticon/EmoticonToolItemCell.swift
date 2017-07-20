@@ -10,7 +10,7 @@ import UIKit
 
 class EmoticonToolItemCell: UICollectionViewCell {
 
-    private lazy var imageView: UIImageView = UIImageView()
+    var imageView: UIImageView = UIImageView()
     private lazy var line: CALayer = CALayer()
     
     override init(frame: CGRect) {
@@ -28,17 +28,10 @@ class EmoticonToolItemCell: UICollectionViewCell {
         contentView.layer.addSublayer(line)
         
         selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor(red:0.93, green:0.93, blue:0.95, alpha:1.00)
+
     }
     
-    var group: EmoticonGroup? {
-        willSet {
-            guard group !== newValue else {
-                return
-            }
-            // 设置图片
-//            _imageView.image = newValue?.thumbnail
-        }
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
