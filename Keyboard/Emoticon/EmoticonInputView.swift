@@ -13,6 +13,8 @@ private let kToolViewHeight: CGFloat = 37
 
 protocol EmoticonInputViewDelegate: class {
     
+    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon)
+
 }
 
 struct EmoticonGroupInfo {

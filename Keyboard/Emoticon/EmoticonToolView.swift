@@ -104,6 +104,7 @@ class EmoticonToolView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.backgroundColor = UIColor.white
         self.addSubview(addButton)
         self.addSubview(collectionView)
         

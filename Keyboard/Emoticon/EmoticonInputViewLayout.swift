@@ -34,11 +34,6 @@ class EmoticonInputViewLayout: UICollectionViewLayout {
     // row 行
     var maxRow: Int = 3
     
-    // margin
-    var margin: CGFloat = 0
-    
-  
-    
     var edgeInset: UIEdgeInsets {
         if let edge = self.delegate?.collectionView(collectionView!, layout: self) {
             return edge
@@ -66,10 +61,6 @@ class EmoticonInputViewLayout: UICollectionViewLayout {
         return false
     }
     
-    var contentOffset: CGPoint {
-        return collectionView!.contentOffset
-    }
-    
 }
 
 extension EmoticonInputViewLayout {
@@ -82,9 +73,7 @@ extension EmoticonInputViewLayout {
             return
         }
         
-        
         // 计算item 大小 
-
         var itemWidth = (collectionViewWidth - 2*edgeInset.left)/CGFloat(maxColumn)
         itemWidth = CGFloatPixelRound(itemWidth)
         
@@ -118,10 +107,9 @@ extension EmoticonInputViewLayout {
           
         }
         
-        cacheContentSize = CGSize(width: CGFloat(sections) * collectionViewWidth, height: 2*margin + CGFloat(maxRow)*itemSize.height)
+        cacheContentSize = CGSize(width: CGFloat(sections) * collectionViewWidth, 
+                                  height: edgeInset.top + CGFloat(maxRow)*itemSize.height + edgeInset.bottom)
     }
-    
-
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         

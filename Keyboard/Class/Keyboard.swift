@@ -50,6 +50,9 @@ class Keyboard: UIView {
 // MARK: - EmoticonInputViewDelegate
 extension Keyboard: EmoticonInputViewDelegate {
     
+    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon) {
+        
+    }
     
 }
 

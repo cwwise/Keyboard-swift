@@ -17,9 +17,8 @@ class MoreInputView: UIView {
     weak var delegate: MoreInputViewDelegate?
     
     fileprivate var items = [MoreItem]()
-
-
-    weak var deleagte: MoreInputViewDelegate?
+    
+    var pageControl: UIPageControl!
 
     lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -36,17 +35,26 @@ class MoreInputView: UIView {
         collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         collectionView.delegate = self
         collectionView.scrollsToTop = false
-        collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         
         return collectionView
     }()
-
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        
     }
+    
+    func reloadData(_ data: [MoreItem]) {
+
+        if data == self.items {
+            return
+        }
+        self.items = data
+        collectionView.reloadData()
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -54,13 +62,6 @@ class MoreInputView: UIView {
 
 }
 
-extension MoreInputView: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-    
-}
 
 extension MoreInputView: UICollectionViewDataSource {
     
@@ -72,6 +73,14 @@ extension MoreInputView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MoreItemCell
 
         return cell
+    }
+    
+}
+
+extension MoreInputView: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 }
