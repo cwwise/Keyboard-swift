@@ -8,42 +8,57 @@
 
 import UIKit
 
+protocol EmoticonInputViewLayoutDelegate: class {
+
+    // 
+//    func emoticonGroupInfo() -> EmoticonGroupInfo
+    
+    func collectionView(_ collectionView: UICollectionView, layout: EmoticonInputViewLayout) -> UIEdgeInsets
+}
+
+
 class EmoticonInputViewLayout: UICollectionViewLayout {
 
-    var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
-    var cacheLayoutAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
-    var contentHeight = CGFloat(0)
+    weak var delegate: EmoticonInputViewLayoutDelegate?
     
-    // section
-    var sections: Int = 0
-
-    // column
-    var maxColumn: Int = 0
-    // row
-    var maxRow: CGFloat = 0
+    var cacheLayoutAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
+    // 
+    var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
+   
+    var cacheContentSize: CGSize = CGSize.zero
+    
+    var itemSize: CGSize = .zero
+    
+    // column 列
+    var maxColumn: Int = 8
+    // row 行
+    var maxRow: Int = 3
+    
     // margin
     var margin: CGFloat = 0
     
+  
     
-    var collectionViewHeight: CGFloat {
-        return collectionView!.frame.height
+    var edgeInset: UIEdgeInsets {
+        if let edge = self.delegate?.collectionView(collectionView!, layout: self) {
+            return edge
+        }
+        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
     }
     
     var collectionViewWidth: CGFloat {
         return collectionView!.frame.width
     }
     
-//    override public var collectionViewContentSize: CGSize {
-//        return CGSize(width: collectionViewWidth, height: contentHeight)
-//    }
-    
+    var collectionViewHeight: CGFloat {
+        return collectionView!.frame.height
+    }
+        
     // MARK: - 返回大小
     override public var collectionViewContentSize: CGSize {
-        let itemsize = self.getItemSize(column: CGFloat(maxColumn), row: maxRow, margin: margin)
-        return CGSize(width: CGFloat(sections) * collectionViewWidth, height: margin + (maxRow * (itemsize.height + margin)))
+        return cacheContentSize
     }
 
-    
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         if collectionView?.frame.width != newBounds.width {
             return true
@@ -61,40 +76,52 @@ extension EmoticonInputViewLayout {
     
     override func prepare() {
         super.prepare()
-        
+                
         // 1
         guard let collectionView = collectionView else {
             return
         }
-        // 根据设置的Column Row, 计算得到每个item的大小
-        let itemsize = getItemSize(column: CGFloat(maxColumn), row: maxRow, margin: margin)
-        // 获取组数
-        // 遍历每组里面的所有item
-        sections = collectionView.numberOfSections
-        for section in 0 ..< collectionView.numberOfSections {
+        
+        
+        // 计算item 大小 
+
+        var itemWidth = (collectionViewWidth - 2*edgeInset.left)/CGFloat(maxColumn)
+        itemWidth = CGFloatPixelRound(itemWidth)
+        
+        let padding = (collectionViewWidth - CGFloat(maxColumn) * itemWidth) / 2.0
+        let paddingLeft = CGFloatPixelRound(padding)
+        let _ = collectionViewWidth - paddingLeft - itemWidth * CGFloat(maxColumn) 
+        
+        itemSize = CGSize(width: itemWidth, height: itemWidth)
+        
+        let sections = collectionView.numberOfSections
+        for section in 0..<sections {
             // 遍历每一个item
-            for item in 0 ..< collectionView.numberOfItems(inSection: section) {
-                // 根据 section, item 获取每一个item的indexPath值
+            var x: CGFloat = 0
+            var y: CGFloat = 0
+            for item in 0..<collectionView.numberOfItems(inSection: section) {
+                
                 let indexPath = IndexPath(item: item, section: section)
-                // 根据indexPath值, 获取每一个item的属性
                 let attribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-                // 通过一系列脑残计算, 得到x, y值
-                let x = margin + (itemsize.width + margin) * CGFloat(item % maxColumn) + (CGFloat(section) * collectionViewWidth)
-                let y = margin + (itemsize.height + margin) * CGFloat(item / Int(maxColumn))
-                attribute.frame = CGRect(x: x, y: y, width: itemsize.width, height: itemsize.height)
-                // 把每一个新的属性保存起来
+
+                let index = section*(maxColumn*maxRow)+item
+                
+                let ii = index % (maxColumn*maxRow) % maxColumn
+                let jj = index % (maxColumn*maxRow) / maxColumn
+                                
+                x = itemSize.width * CGFloat(ii) + collectionViewWidth*CGFloat(section) + paddingLeft
+                y = itemSize.height * CGFloat(jj) + edgeInset.top
+                
+                attribute.frame = CGRect(x: x, y: y, width: itemSize.width, height: itemSize.height)
                 cacheLayoutAttributes[indexPath] = attribute
             }
+          
         }
         
+        cacheContentSize = CGSize(width: CGFloat(sections) * collectionViewWidth, height: 2*margin + CGFloat(maxRow)*itemSize.height)
     }
     
-    // MARK: - itemSize
-    // 为了使得表情不变形, 因此 height = width
-    func getItemSize(column: CGFloat, row: CGFloat, margin: CGFloat) -> CGSize {
-        let width = (collectionViewWidth - ((column + 1) * margin)) / column
-        return CGSize(width: width, height: width)
-    }
+
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
@@ -113,10 +140,11 @@ extension EmoticonInputViewLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cacheLayoutAttributes[indexPath]
     }
-    
-    
-    
-    
 }
 
+
+func CGFloatPixelRound(_ value: CGFloat) -> CGFloat {
+    let scale = UIScreen.main.scale
+    return round(value * scale) / scale
+}
 

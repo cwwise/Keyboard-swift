@@ -54,6 +54,10 @@ class Emoticon: NSObject {
         self.code = code
     }
     
+    override var description: String {
+        return self.title ?? "无title"
+    }
+    
 }
 
 

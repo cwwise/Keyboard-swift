@@ -163,10 +163,10 @@
 				1F8D6D3E1F20BD8500E8A6E6 /* EmoticonGroup.swift */,
 				1F8D6D441F20BD8500E8A6E6 /* EmoticonInputView.swift */,
 				1F8D6D3F1F20BD8500E8A6E6 /* EmoticonInputViewLayout.swift */,
+				1F8D6D431F20BD8500E8A6E6 /* EmoticonCell.swift */,
 				1F8D6D401F20BD8500E8A6E6 /* EmoticonPreviewer.swift */,
 				1F8D6D411F20BD8500E8A6E6 /* EmoticonToolItemCell.swift */,
 				1F8D6D421F20BD8500E8A6E6 /* EmoticonToolView.swift */,
-				1F8D6D431F20BD8500E8A6E6 /* EmoticonCell.swift */,
 			);
 			path = Emoticon;
 			sourceTree = "<group>";

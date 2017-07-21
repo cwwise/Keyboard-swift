@@ -28,13 +28,13 @@ class ViewController: UIViewController {
             groupList.append(liemoticon)
         }
         
+        
         let height: CGFloat = 216
         let frame = CGRect(x: 0, y: self.view.height - height, width: self.view.width, height: height)
         let inputView = EmoticonInputView(frame: frame)
-        inputView.groupList = groupList
         self.view.addSubview(inputView)
         
-        inputView.reloadData()
+        inputView.reloadData(groupList)
     }
 
     override func didReceiveMemoryWarning() {

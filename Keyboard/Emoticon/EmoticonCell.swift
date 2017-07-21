@@ -10,18 +10,33 @@ import UIKit
 
 class EmoticonCell: UICollectionViewCell {
     
-    var emoticon: Emoticon?
+    var emoticon: Emoticon? {
+        didSet {
+            updateContent()
+        }
+    }
     /// 是否为删除按钮
     var isDelete: Bool = false
-    /// 显示图片
-    var imageView: UIImageView = UIImageView()
+    /// 
+    var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.size = CGSize(width: 32, height: 32)
+        return imageView
+    }()
+    
+    var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textColor = UIColor.gray
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        return titleLabel
+    }() 
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        imageView.contentMode = .scaleAspectFit
-        imageView.size = CGSize(width: 32, height: 32)
         self.contentView.addSubview(imageView)
+        self.contentView.addSubview(titleLabel)
     }
     
     func updateContent() {
@@ -30,19 +45,19 @@ class EmoticonCell: UICollectionViewCell {
             imageView.image = UIImage(named: "DeleteEmoticonBtn")
         } else {
             if let emoticon = emoticon {
-                let emoticonPath = Bundle.main.path(forResource: "Emotion", ofType: "bundle")
-                let emoticonBundle = Bundle(path: emoticonPath!)
-                let imagePath = emoticonBundle?.path(forResource: emoticon.png!+"@2x", ofType: "png")
+                imageView.image = UIImage(contentsOfFile: emoticon.png!)
+//                titleLabel.text = emoticon.id
             } else {
                 imageView.image = nil
+                titleLabel.text = nil
             }
         }
-        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.center = CGPoint(x: self.width/2, y: self.height/2)
+        imageView.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+        titleLabel.frame = CGRect(x: 0, y: imageView.bottom, width: self.bounds.width, height: 12)
     }
     
     required init?(coder aDecoder: NSCoder) {
