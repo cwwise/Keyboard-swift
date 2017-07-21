@@ -6,6 +6,7 @@ target 'Keyboard' do
   use_frameworks!
 
   pod 'SwiftyJSON'
+  pod 'SnapKit'
   # Pods for Keyboard
 
   target 'KeyboardTests' do

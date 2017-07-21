@@ -23,24 +23,19 @@ class EmoticonInputView: UIView {
     
     var collectionView: UICollectionView!
     var toolView: EmoticonToolView!
+    var pageControl: UIPageControl!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        
     }
     
     func setupUI() {
         setupCollectionView()
+        setupPageControl()
         setupToolView()
     }
-    
-    func setupToolView() {
-        let frame = CGRect(x: 0, y: self.height - kToolViewHeight, width: self.width, height: kToolViewHeight)
-        toolView = EmoticonToolView(frame: frame)
-        self.addSubview(toolView)
-    }
-    
+        
     func setupCollectionView() {
         
         let layout = EmoticonInputViewLayout()
@@ -57,6 +52,18 @@ class EmoticonInputView: UIView {
         collectionView.top = 5;
         self.addSubview(collectionView)
         
+    }
+    
+    func setupPageControl() {
+        let frame = CGRect(x: 0, y: collectionView.bottom, width: self.width, height: 15)
+        pageControl = UIPageControl(frame: frame)
+        self.addSubview(pageControl)
+    }
+    
+    func setupToolView() {
+        let frame = CGRect(x: 0, y: self.height - kToolViewHeight, width: self.width, height: kToolViewHeight)
+        toolView = EmoticonToolView(frame: frame)
+        self.addSubview(toolView)
     }
     
     func reloadData() {

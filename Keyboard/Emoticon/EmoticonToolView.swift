@@ -8,7 +8,8 @@
 
 import UIKit
 
-private let itemWidth: CGFloat = 45
+private let kItemWidth: CGFloat = 45
+private let kDurationTime: TimeInterval = 0.15
 
 protocol EmoticonToolViewDelegate {
     
@@ -21,12 +22,14 @@ class EmoticonToolView: UIView {
     /// 数据源
     var groupList: [EmoticonGroup] = [EmoticonGroup]()
     
+    var selectIndex: Int = 0
+    
     lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: itemWidth, height: self.frame.height)
+        layout.itemSize = CGSize(width: kItemWidth, height: self.frame.height)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
@@ -36,6 +39,7 @@ class EmoticonToolView: UIView {
         collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         collectionView.delegate = self
         collectionView.scrollsToTop = false
+        collectionView.alwaysBounceHorizontal = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         
@@ -56,7 +60,7 @@ class EmoticonToolView: UIView {
         sendButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnBlueHL"), for: .highlighted)
         sendButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .disabled)
         
-        sendButton.isEnabled = false
+        sendButton.isEnabled = true
         return sendButton
     }()
     
@@ -64,6 +68,7 @@ class EmoticonToolView: UIView {
     let settingButton: UIButton = {
         let settingButton = UIButton(type: .custom)
         
+        settingButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         settingButton.setImage(UIImage(named: "EmotionsSetting"), for: .normal)
         settingButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .normal)
         settingButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .highlighted)
@@ -74,12 +79,12 @@ class EmoticonToolView: UIView {
     lazy var addButton: UIButton = {
         let addButton = UIButton(type: .custom)
         addButton.setImage(UIImage(named: "EmotionsBagAdd"), for: .normal)
-        addButton.frame = CGRect(x: 0, y: 0, width: itemWidth, height: self.height)
+        addButton.frame = CGRect(x: 0, y: 0, width: kItemWidth, height: self.height)
 
         // 添加一条线
         let line: CALayer = CALayer()
         line.backgroundColor = UIColor(white: 0.9, alpha: 1.0).cgColor
-        line.frame = CGRect(x: itemWidth-0.5, y: 8, width: 0.5, height: self.height - 2*8)
+        line.frame = CGRect(x: kItemWidth-0.5, y: 8, width: 0.5, height: self.height - 2*8)
         addButton.layer.addSublayer(line)
         
         return addButton
@@ -91,6 +96,9 @@ class EmoticonToolView: UIView {
         }
         self.groupList = groupList
         self.collectionView.reloadData()
+        
+        let firstIndex = IndexPath(row: selectIndex, section: 0)
+        self.collectionView.selectItem(at: firstIndex, animated: false, scrollPosition: .centeredHorizontally)
     }
     
     override init(frame: CGRect) {
@@ -102,7 +110,7 @@ class EmoticonToolView: UIView {
         self.addSubview(sendButton)
         self.addSubview(settingButton)
         
-        collectionView.frame = CGRect(x: addButton.right, y: 0, width: self.width-itemWidth, height: self.height)
+        collectionView.frame = CGRect(x: addButton.right, y: 0, width: self.width-kItemWidth, height: self.height)
         
         let buttonWidth: CGFloat = 52
         sendButton.frame = CGRect(x: self.width-buttonWidth, y: 0, width: buttonWidth, height: self.height)
@@ -118,7 +126,45 @@ class EmoticonToolView: UIView {
 extension EmoticonToolView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == selectIndex {
+            return
+        }
+        selectIndex = indexPath.row
+ 
+        // 切换动画
+        // 是一个 显示发送按钮
+        if indexPath.row == 0 {
+          
+            UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
+                self.settingButton.left = self.width
+            }, completion: { (finshed) in
+                
+                UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
+                    self.sendButton.left = self.width-self.sendButton.width            
+                }, completion: { (finshed) in
+                    
+                })
+                
+            })
+            
+            
+        } else {
+            
+            UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
+                self.sendButton.left = self.width            
+            }, completion: { (finshed) in
+                
+                UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
+                    self.settingButton.left = self.width-self.settingButton.width            
+                }, completion: { (finshed) in
+                    
+                })
+                
+            })
+            
+        }       
         
+        // 通知代理
     }
     
 }
