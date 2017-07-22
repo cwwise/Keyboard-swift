@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         let inputView = EmoticonInputView(frame: frame)
         self.view.addSubview(inputView)
         
-        inputView.reloadData(groupList)
+        inputView.loadData(groupList)
     }
     
     func testMore() {
@@ -57,8 +57,10 @@ class ViewController: UIViewController {
         let height: CGFloat = 216
         let frame = CGRect(x: 0, y: self.view.height - 2*height - 10, width: self.view.width, height: height)
         let inputView = MoreInputView(frame: frame)
+        inputView.backgroundColor = UIColor.orange
         self.view.addSubview(inputView)
         
+        inputView.reloadData(chatMoreKeyboardData)
     }
     
 

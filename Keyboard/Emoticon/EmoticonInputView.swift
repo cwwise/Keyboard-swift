@@ -13,8 +13,9 @@ private let kToolViewHeight: CGFloat = 37
 
 protocol EmoticonInputViewDelegate: class {
     
-    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon)
+    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon?)
 
+    func didPressSend()
 }
 
 struct EmoticonGroupInfo {
@@ -26,7 +27,6 @@ struct EmoticonGroupInfo {
     }
 }
 
-
 class EmoticonInputView: UIView {
 
     weak var delegate: EmoticonInputViewDelegate?
@@ -35,8 +35,8 @@ class EmoticonInputView: UIView {
     fileprivate var groupInfoList = [EmoticonGroupInfo]()
     
     var collectionView: UICollectionView!
-    var toolView: EmoticonToolView!
     var pageControl: UIPageControl!
+    var toolView: EmoticonToolView!
     var previewer: EmoticonPreviewer!
     
     var selectIndex: Int = 0
@@ -55,12 +55,17 @@ class EmoticonInputView: UIView {
         
     func setupCollectionView() {
         
-        let layout = EmoticonInputViewLayout()
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: self.bounds.width, height: 160)
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        
         
         let frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: 160)
         collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.clear
-        collectionView.register(EmoticonCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(EmoticonPageCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self;
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
@@ -79,10 +84,11 @@ class EmoticonInputView: UIView {
     func setupToolView() {
         let frame = CGRect(x: 0, y: self.height - kToolViewHeight, width: self.bounds.width, height: kToolViewHeight)
         toolView = EmoticonToolView(frame: frame)
+        toolView.delegate = self
         self.addSubview(toolView)
     }
     
-    func reloadData(_ data: [EmoticonGroup]) {
+    func loadData(_ data: [EmoticonGroup]) {
         
         if data == groupList {
             return
@@ -103,12 +109,13 @@ class EmoticonInputView: UIView {
             } else {
                 
             }
-            
             let info = EmoticonGroupInfo(row: row, column: column, page: page)
             groupInfoList.append(info)
         }
-        
-        
+        selectIndex = 0
+        pageControl.numberOfPages = groupInfoList[selectIndex].page
+        pageControl.currentPage = 0
+        collectionView.reloadData()
         toolView.loadData(groupList)
     }
     
@@ -121,30 +128,16 @@ class EmoticonInputView: UIView {
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return groupInfoList[selectIndex].page
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return groupInfoList[selectIndex].onePageCount
+        return groupList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonPageCell
        
-        let emoticonOfPage = groupInfoList[selectIndex].onePageCount - 1
-        if indexPath.row == emoticonOfPage {
-            cell.isDelete = true
-            cell.emoticon = nil
-        } else {
-            cell.isDelete = false
-            let index = indexPath.row + emoticonOfPage*indexPath.section
-            if index >= groupList[0].count {
-                cell.emoticon = nil
-            } else {
-                cell.emoticon = groupList[selectIndex].emoticons[index]
-            }
-        }
+        cell.group = groupList[selectIndex]
+        cell.groupInfo = groupInfoList[selectIndex]
+
         return cell
     }
     
@@ -162,6 +155,20 @@ extension EmoticonInputView: UIScrollViewDelegate, UICollectionViewDelegateFlowL
 
         
     }
+}
+
+extension EmoticonInputView: EmoticonToolViewDelegate {
+    
+    // 这个是否需要直接把button事件添加到 EmoticonInputView
+    func didPressSend() {
+        self.delegate?.didPressSend()
+    }
+    
+    func didChangeEmoticonGroup(_ index: Int) {
+        
+        
+    }
+    
 }
 
 // MARK: - EmoticonInputViewLayoutDelegate

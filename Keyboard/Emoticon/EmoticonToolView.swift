@@ -13,6 +13,9 @@ private let kDurationTime: TimeInterval = 0.15
 
 protocol EmoticonToolViewDelegate {
     
+    func didPressSend()
+    // 切换表情数组
+    func didChangeEmoticonGroup(_ index: Int)
 }
 
 /// 表情标签
@@ -61,6 +64,7 @@ class EmoticonToolView: UIView {
         sendButton.setBackgroundImage(UIImage(named: "EmotionsSendBtnGrey"), for: .disabled)
         
         sendButton.isEnabled = true
+        sendButton.addTarget(self, action: #selector(sendButtonClick), for: .touchUpInside)
         return sendButton
     }()
     
@@ -121,6 +125,11 @@ class EmoticonToolView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    func sendButtonClick() {
+        self.delegate?.didPressSend()
+    }
 
 }
 
@@ -166,6 +175,8 @@ extension EmoticonToolView: UICollectionViewDelegate {
         }       
         
         // 通知代理
+        self.delegate?.didChangeEmoticonGroup(indexPath.row)
+        
     }
     
 }

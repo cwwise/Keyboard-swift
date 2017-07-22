@@ -7,6 +7,7 @@ target 'Keyboard' do
 
   pod 'SwiftyJSON'
   pod 'SnapKit'
+  pod 'Hue'
   # Pods for Keyboard
 
   target 'KeyboardTests' do

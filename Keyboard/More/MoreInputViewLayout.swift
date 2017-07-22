@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoreCollectionLayout: UICollectionViewFlowLayout {
+class MoreInputViewLayout: UICollectionViewFlowLayout {
         
     var cacheLayoutAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     // 
@@ -46,8 +46,7 @@ class MoreCollectionLayout: UICollectionViewFlowLayout {
         super.prepare()
         
         // 1
-        guard let collectionView = collectionView,
-         cacheLayoutAttributes.isEmpty else {
+        guard let collectionView = collectionView else {
             return
         }
         

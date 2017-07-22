@@ -9,7 +9,19 @@
 import UIKit
 import SnapKit
 
+protocol MoreItemCellDelegate: NSObjectProtocol {
+    func moreItemCell(_ cell: MoreItemCell, didSelectItem item: MoreItem)
+}
+
 class MoreItemCell: UICollectionViewCell {
+    
+    weak var delegate: MoreItemCellDelegate?
+
+    var item: MoreItem? {
+        didSet {
+            updateInfo()
+        }
+    }
     
     lazy var itemButton: UIButton = {
         let itemBtn = UIButton()
@@ -30,25 +42,52 @@ class MoreItemCell: UICollectionViewCell {
         return itemL
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(itemButton)
+        addSubview(itemLabel)
+        addsnap()
+    }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        self.addSubview(itemButton)
-        self.addSubview(itemLabel)
-        
+    func addsnap()  {
+        itemButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView)
+            make.centerX.equalTo(self.contentView)
+            make.size.equalTo(CGSize(width: 60, height: 60))
+        }
+                
         itemLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(self)
-            make.bottom.equalTo(self.snp.bottom).offset(-2)
             make.height.equalTo(21)
+            make.top.equalTo(itemButton.snp.bottom).offset(6)
         }
-        itemButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top).offset(6)
-            make.bottom.equalTo(itemLabel.snp.top).offset(-5)
-            make.width.equalTo(itemButton.snp.height)
-            make.centerX.equalTo(self.snp.centerX)
+    }
+    
+    func itemButtonClick() {
+        if let item = self.item {
+            self.delegate?.moreItemCell(self, didSelectItem: item)
+        }
+    }
+    
+    func updateInfo() {
+        
+        guard let cellitem = item else {
+            itemButton.isHidden = true
+            itemLabel.isHidden = true
+            return
         }
         
+        itemButton.isHidden = false
+        itemLabel.isHidden = false
+        
+        itemLabel.text = cellitem.title
+        itemButton.setImage(UIImage(named: cellitem.imagePath), for: .normal)
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }

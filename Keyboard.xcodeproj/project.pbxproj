@@ -28,7 +28,10 @@
 		1F8D6D561F20C9D100E8A6E6 /* MoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */; };
 		1F8D6D581F20C9E800E8A6E6 /* MoreItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */; };
 		1F8D6D5A1F20C9F700E8A6E6 /* MoreInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */; };
-		1F8D6D5C1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */; };
+		1F8D6D5C1F20CB0C00E8A6E6 /* MoreInputViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D5B1F20CB0C00E8A6E6 /* MoreInputViewLayout.swift */; };
+		1F9C4B0C1F22ECDD0054E2EF /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0B1F22ECDD0054E2EF /* UIButton+Extension.swift */; };
+		1F9C4B0E1F22ED740054E2EF /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */; };
+		1F9C4B101F2329600054E2EF /* EmoticonPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0F1F2329600054E2EF /* EmoticonPageCell.swift */; };
 		46034C071B6BE30E3D8BDE26 /* Pods_KeyboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDC4576375F1B36691CD37E7 /* Pods_KeyboardTests.framework */; };
 		8C8A32B41F20E6F300FBC8DD /* emoticons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */; };
 /* End PBXBuildFile section */
@@ -68,7 +71,10 @@
 		1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreItem.swift; sourceTree = "<group>"; };
 		1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreItemCell.swift; sourceTree = "<group>"; };
 		1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInputView.swift; sourceTree = "<group>"; };
-		1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreCollectionLayout.swift; sourceTree = "<group>"; };
+		1F8D6D5B1F20CB0C00E8A6E6 /* MoreInputViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInputViewLayout.swift; sourceTree = "<group>"; };
+		1F9C4B0B1F22ECDD0054E2EF /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		1F9C4B0F1F2329600054E2EF /* EmoticonPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonPageCell.swift; sourceTree = "<group>"; };
 		2FEA2AC8F56C478E3011B3AF /* Pods-Keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Keyboard/Pods-Keyboard.release.xcconfig"; sourceTree = "<group>"; };
 		62C713CA1A6AB6D8BF4C8E12 /* Pods-KeyboardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeyboardTests/Pods-KeyboardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65AE0BCC6D00D814A0FD9355 /* Pods_Keyboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Keyboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +141,7 @@
 				1F8D6D1C1F20BD4B00E8A6E6 /* AppDelegate.swift */,
 				1F8D6D1E1F20BD4B00E8A6E6 /* ViewController.swift */,
 				1F8D6D4D1F20C3E800E8A6E6 /* UIView+Frame.swift */,
+				1F9C4B0B1F22ECDD0054E2EF /* UIButton+Extension.swift */,
 				8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */,
 				1F8D6D4F1F20C51400E8A6E6 /* Class */,
 				1F8D6D541F20C9B800E8A6E6 /* More */,
@@ -163,6 +170,7 @@
 				1F8D6D3E1F20BD8500E8A6E6 /* EmoticonGroup.swift */,
 				1F8D6D441F20BD8500E8A6E6 /* EmoticonInputView.swift */,
 				1F8D6D3F1F20BD8500E8A6E6 /* EmoticonInputViewLayout.swift */,
+				1F9C4B0F1F2329600054E2EF /* EmoticonPageCell.swift */,
 				1F8D6D431F20BD8500E8A6E6 /* EmoticonCell.swift */,
 				1F8D6D401F20BD8500E8A6E6 /* EmoticonPreviewer.swift */,
 				1F8D6D411F20BD8500E8A6E6 /* EmoticonToolItemCell.swift */,
@@ -176,6 +184,7 @@
 			children = (
 				1F8D6D501F20C95B00E8A6E6 /* Keyboard.swift */,
 				1F8D6D521F20C9A400E8A6E6 /* ToolView.swift */,
+				1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -186,7 +195,7 @@
 				1F8D6D591F20C9F700E8A6E6 /* MoreInputView.swift */,
 				1F8D6D551F20C9D100E8A6E6 /* MoreItem.swift */,
 				1F8D6D571F20C9E800E8A6E6 /* MoreItemCell.swift */,
-				1F8D6D5B1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift */,
+				1F8D6D5B1F20CB0C00E8A6E6 /* MoreInputViewLayout.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -403,12 +412,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9C4B101F2329600054E2EF /* EmoticonPageCell.swift in Sources */,
 				1F8D6D531F20C9A400E8A6E6 /* ToolView.swift in Sources */,
 				1F8D6D1F1F20BD4B00E8A6E6 /* ViewController.swift in Sources */,
 				1F8D6D4C1F20BD8500E8A6E6 /* EmoticonInputView.swift in Sources */,
 				1F8D6D481F20BD8500E8A6E6 /* EmoticonPreviewer.swift in Sources */,
 				1F8D6D461F20BD8500E8A6E6 /* EmoticonGroup.swift in Sources */,
+				1F9C4B0C1F22ECDD0054E2EF /* UIButton+Extension.swift in Sources */,
 				1F8D6D581F20C9E800E8A6E6 /* MoreItemCell.swift in Sources */,
+				1F9C4B0E1F22ED740054E2EF /* RecordButton.swift in Sources */,
 				1F8D6D561F20C9D100E8A6E6 /* MoreItem.swift in Sources */,
 				1F8D6D4B1F20BD8500E8A6E6 /* EmoticonCell.swift in Sources */,
 				1F8D6D1D1F20BD4B00E8A6E6 /* AppDelegate.swift in Sources */,
@@ -418,7 +430,7 @@
 				1F8D6D5A1F20C9F700E8A6E6 /* MoreInputView.swift in Sources */,
 				1F8D6D491F20BD8500E8A6E6 /* EmoticonToolItemCell.swift in Sources */,
 				1F8D6D511F20C95B00E8A6E6 /* Keyboard.swift in Sources */,
-				1F8D6D5C1F20CB0C00E8A6E6 /* MoreCollectionLayout.swift in Sources */,
+				1F8D6D5C1F20CB0C00E8A6E6 /* MoreInputViewLayout.swift in Sources */,
 				1F8D6D4E1F20C3E800E8A6E6 /* UIView+Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
