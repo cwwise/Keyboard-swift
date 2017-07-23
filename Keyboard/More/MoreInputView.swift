@@ -65,13 +65,14 @@ class MoreInputView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.white
         self.addSubview(collectionView)
         self.addSubview(pageControl)
         pageControl.top = collectionView.bottom
 
     }
     
-    func reloadData(_ data: [MoreItem]) {
+    func loadData(_ data: [MoreItem]) {
 
         if data == self.items {
             return

@@ -13,8 +13,51 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        testMore()
-        testEmoticon()
+       // testMore()
+        testKeyboard()
+     //   testEmoticon()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(test))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func test() {
+        self.view.endEditing(true)
+    }
+    
+    func testKeyboard() {
+        
+        let frame = CGRect(x: 0, y: self.view.height-49, width: self.view.width, height: 216+49)
+        let keyboard = Keyboard(frame: frame)
+        keyboard.backgroundColor = UIColor.orange
+        self.view.addSubview(keyboard)
+        
+        var groupList = [EmoticonGroup]()
+        if let qqemoticon = EmoticonGroup(identifier: "com.qq.classic") {
+            groupList.append(qqemoticon)
+        }
+        
+        if let qqemoticon = EmoticonGroup(identifier: "com.qq.classic") {
+            qqemoticon.emoticons.reverse()
+            groupList.append(qqemoticon)
+        }
+        keyboard.emoticonInputView.loadData(groupList)
+        
+        
+        //创建数据
+        let titleArray = ["照片", "拍摄", "小视频", "视频聊天", "红包", "转账",
+                          "位置", "收藏", "个人名片", "语音输入", "卡券"]
+        let imageArray = ["moreKB_image", "moreKB_video", "moreKB_sight", "moreKB_video_call",
+                          "moreKB_wallet", "moreKB_pay", "moreKB_location", "moreKB_favorite",
+                          "moreKB_friendcard", "moreKB_voice", "moreKB_wallet"]
+        
+        var chatMoreKeyboardData: [MoreItem] = []
+        for i in 0..<titleArray.count {
+            let type = MoreItemType(rawValue: i)!
+            let item = MoreItem(title: titleArray[i], imagePath: imageArray[i], type: type)
+            chatMoreKeyboardData.append(item)
+        }
+        keyboard.moreInputView.loadData(chatMoreKeyboardData)
+
     }
     
     func testEmoticon() {
@@ -50,7 +93,7 @@ class ViewController: UIViewController {
         let imageArray = ["moreKB_image", "moreKB_video", "moreKB_sight", "moreKB_video_call",
                           "moreKB_wallet", "moreKB_pay", "moreKB_location", "moreKB_favorite",
                           "moreKB_friendcard", "moreKB_voice", "moreKB_wallet"]
-       
+        
         var chatMoreKeyboardData: [MoreItem] = []
         for i in 0..<titleArray.count {
             let type = MoreItemType(rawValue: i)!
@@ -65,7 +108,7 @@ class ViewController: UIViewController {
         inputView.backgroundColor = UIColor.orange
         self.view.addSubview(inputView)
         
-        inputView.reloadData(chatMoreKeyboardData)
+        inputView.loadData(chatMoreKeyboardData)
     }
     
 

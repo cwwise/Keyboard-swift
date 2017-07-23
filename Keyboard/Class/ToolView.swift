@@ -19,9 +19,14 @@ enum ToolViewStatus {
 private let kItemSpacing: CGFloat = 3
 private let kTextViewPadding: CGFloat = 6
 
+protocol ToolViewDelegate: class {
+    func textViewShouldBeginEditing()
+}
+
 /// 输入框按钮
 class ToolView: UIView {
 
+    weak var delegate: ToolViewDelegate?
     // MARK: 属性
     var contentText: String? {
         didSet {
@@ -29,9 +34,12 @@ class ToolView: UIView {
         }
     }
     
-    var showsKeyboard: Bool = false {
-        didSet {
-            if showsKeyboard {
+    var showsKeyboard: Bool {
+        get {
+            return inputTextView.isFirstResponder
+        }
+        set {
+            if newValue {
                 inputTextView.becomeFirstResponder()
             } else {
                 inputTextView.resignFirstResponder()
@@ -42,8 +50,8 @@ class ToolView: UIView {
     var status: ToolViewStatus = .none
     
     /// 输入框
-    lazy var inputTextView: UITextView = {
-        let inputTextView = UITextView(frame:CGRect.zero)
+    lazy var inputTextView: InputTextView = {
+        let inputTextView = InputTextView(frame:CGRect.zero)
         inputTextView.delegate = self
         return inputTextView
     }()
@@ -81,20 +89,75 @@ class ToolView: UIView {
     }()
     
     //按钮的图片
-    var kVoiceImage:UIImage = UIImage(named: "Chat_toolbar_voice")!
-    var kVoiceImageHL:UIImage = UIImage(named: "Chat_toolbar_voice_HL")!
-    var kEmojiImage:UIImage = UIImage(named: "Chat_toolbar_emotion")!
-    var kEmojiImageHL:UIImage = UIImage(named: "Chat_toolbar_emotion_HL")!
+    var kVoiceImage:UIImage = UIImage(named: "chat_toolbar_voice")!
+    var kVoiceImageHL:UIImage = UIImage(named: "chat_toolbar_voice_HL")!
+    var kEmojiImage:UIImage = UIImage(named: "chat_toolbar_emotion")!
+    var kEmojiImageHL:UIImage = UIImage(named: "chat_toolbar_emotion_HL")!
     
     //图片名称待修改
-    var kMoreImage:UIImage = UIImage(named: "Chat_toolbar_more")!
-    var kMoreImageHL:UIImage = UIImage(named: "Chat_toolbar_more_HL")!
+    var kMoreImage:UIImage = UIImage(named: "chat_toolbar_more")!
+    var kMoreImageHL:UIImage = UIImage(named: "chat_toolbar_more_HL")!
     
-    var kKeyboardImage:UIImage = UIImage(named: "Chat_toolbar_keyboard")!
-    var kKeyboardImageHL:UIImage = UIImage(named: "Chat_toolbar_keyboard_HL")!
+    var kKeyboardImage:UIImage = UIImage(named: "chat_toolbar_keyboard")!
+    var kKeyboardImageHL:UIImage = UIImage(named: "chat_toolbar_keyboard_HL")!
+    
+    var allowVoice: Bool = true
+    var allowFaceView: Bool = true
+    var allowMoreView: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
+    }
+    
+    func setupUI() {
+        
+        self.autoresizingMask = [UIViewAutoresizing.flexibleWidth,UIViewAutoresizing.flexibleTopMargin]
+        self.backgroundColor = UIColor.white
+        
+        addSubview(self.voiceButton)
+        addSubview(self.emoticonButton)
+        addSubview(self.moreButton)
+        addSubview(self.recordButton)
+        addSubview(self.inputTextView)
+        
+        let toolBarHeight = self.height
+        
+        let kItem: CGFloat = 42
+        let buttonSize = CGSize(width: kItem, height: 49)
+        
+        if self.allowVoice {
+            let origin = CGPoint(x: 0, y: toolBarHeight-buttonSize.height)
+            voiceButton.frame = CGRect(origin: origin, size: buttonSize)
+        } else {
+            voiceButton.frame = CGRect.zero
+        }
+        
+        if self.allowMoreView {
+            let origin = CGPoint(x: self.bounds.width-buttonSize.width, y: toolBarHeight-buttonSize.height)
+            moreButton.frame = CGRect(origin: origin, size: buttonSize)
+        } else {
+            moreButton.frame = CGRect.zero
+        }
+        
+        if self.allowFaceView {
+            let origin = CGPoint(x: self.bounds.width-buttonSize.width*2, y: toolBarHeight-buttonSize.height)
+            emoticonButton.frame = CGRect(origin: origin, size: buttonSize)
+        } else {
+            emoticonButton.frame = CGRect.zero
+        }
+        
+        var textViewX = voiceButton.right
+        var textViewWidth = emoticonButton.left - voiceButton.right
+        
+        if textViewX == 0 {
+            textViewX = 8
+            textViewWidth -= textViewX
+        }
+        
+        let height: CGFloat = 36
+        inputTextView.frame = CGRect(x: textViewX, y: (49 - height)/2.0,
+                                     width: textViewWidth, height: height)
         
     }
     
@@ -145,7 +208,10 @@ class ToolView: UIView {
 
 extension ToolView : UITextViewDelegate {
     
-    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        self.delegate?.textViewShouldBeginEditing()
+        return true
+    }
     
 }
 

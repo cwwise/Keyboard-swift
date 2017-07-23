@@ -32,6 +32,7 @@
 		1F9C4B0C1F22ECDD0054E2EF /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0B1F22ECDD0054E2EF /* UIButton+Extension.swift */; };
 		1F9C4B0E1F22ED740054E2EF /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */; };
 		1F9C4B101F2329600054E2EF /* EmoticonPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B0F1F2329600054E2EF /* EmoticonPageCell.swift */; };
+		1F9C4B121F2480960054E2EF /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C4B111F2480960054E2EF /* InputTextView.swift */; };
 		46034C071B6BE30E3D8BDE26 /* Pods_KeyboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDC4576375F1B36691CD37E7 /* Pods_KeyboardTests.framework */; };
 		8C8A32B41F20E6F300FBC8DD /* emoticons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		1F9C4B0B1F22ECDD0054E2EF /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		1F9C4B0F1F2329600054E2EF /* EmoticonPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonPageCell.swift; sourceTree = "<group>"; };
+		1F9C4B111F2480960054E2EF /* InputTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		2FEA2AC8F56C478E3011B3AF /* Pods-Keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Keyboard/Pods-Keyboard.release.xcconfig"; sourceTree = "<group>"; };
 		62C713CA1A6AB6D8BF4C8E12 /* Pods-KeyboardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeyboardTests/Pods-KeyboardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65AE0BCC6D00D814A0FD9355 /* Pods_Keyboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Keyboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +186,7 @@
 			children = (
 				1F8D6D501F20C95B00E8A6E6 /* Keyboard.swift */,
 				1F8D6D521F20C9A400E8A6E6 /* ToolView.swift */,
+				1F9C4B111F2480960054E2EF /* InputTextView.swift */,
 				1F9C4B0D1F22ED740054E2EF /* RecordButton.swift */,
 			);
 			path = Class;
@@ -412,6 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9C4B121F2480960054E2EF /* InputTextView.swift in Sources */,
 				1F9C4B101F2329600054E2EF /* EmoticonPageCell.swift in Sources */,
 				1F8D6D531F20C9A400E8A6E6 /* ToolView.swift in Sources */,
 				1F8D6D1F1F20BD4B00E8A6E6 /* ViewController.swift in Sources */,
