@@ -126,6 +126,13 @@ class EmoticonToolView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateEmoticonGroup(_ index: Int) {
+        selectIndex = index
+        changeAnimate(index == 0)
+        let indexPath = IndexPath(row: selectIndex, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    }
+    
     
     func sendButtonClick() {
         self.delegate?.didPressSend()
@@ -140,11 +147,19 @@ extension EmoticonToolView: UICollectionViewDelegate {
             return
         }
         selectIndex = indexPath.row
- 
+        
+        changeAnimate(indexPath.row == 0)
+        // 通知代理
+        self.delegate?.didChangeEmoticonGroup(indexPath.row)
+        
+    }
+    
+    func changeAnimate(_ showSendButton: Bool) {
+        
         // 切换动画
         // 是一个 显示发送按钮
-        if indexPath.row == 0 {
-          
+        if showSendButton {
+            
             UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
                 self.settingButton.left = self.width
             }, completion: { (finshed) in
@@ -172,10 +187,7 @@ extension EmoticonToolView: UICollectionViewDelegate {
                 
             })
             
-        }       
-        
-        // 通知代理
-        self.delegate?.didChangeEmoticonGroup(indexPath.row)
+        }  
         
     }
     

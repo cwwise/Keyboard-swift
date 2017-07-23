@@ -8,23 +8,26 @@
 
 import UIKit
 
+struct EmoticonGroupInfo {
+    let row: Int     // 行
+    let column: Int  // 列
+    let page: Int    // 页数
+    
+    var currentIndex: Int = 0
+    
+    var onePageCount: Int {
+        return row*column
+    }
+}
+
 private let kEmoticonHeight: CGFloat = 50
 private let kToolViewHeight: CGFloat = 37
 
 protocol EmoticonInputViewDelegate: class {
     
     func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon?)
-
+   
     func didPressSend()
-}
-
-struct EmoticonGroupInfo {
-    let row: Int     // 行
-    let column: Int  // 列
-    let page: Int    // 页数
-    var onePageCount: Int {
-        return row*column
-    }
 }
 
 class EmoticonInputView: UIView {
@@ -37,7 +40,6 @@ class EmoticonInputView: UIView {
     var collectionView: UICollectionView!
     var pageControl: UIPageControl!
     var toolView: EmoticonToolView!
-    var previewer: EmoticonPreviewer!
     
     var selectIndex: Int = 0
     
@@ -109,7 +111,7 @@ class EmoticonInputView: UIView {
             } else {
                 
             }
-            let info = EmoticonGroupInfo(row: row, column: column, page: page)
+            let info = EmoticonGroupInfo(row: row, column: column, page: page, currentIndex: 0)
             groupInfoList.append(info)
         }
         selectIndex = 0
@@ -117,6 +119,15 @@ class EmoticonInputView: UIView {
         pageControl.currentPage = 0
         collectionView.reloadData()
         toolView.loadData(groupList)
+    }
+    
+    func reload() {
+        
+        pageControl.numberOfPages = groupInfoList[selectIndex].page
+        pageControl.currentPage = groupInfoList[selectIndex].currentIndex
+        
+        let indexPath = IndexPath(row: selectIndex, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -135,9 +146,10 @@ extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonPageCell
        
-        cell.group = groupList[selectIndex]
-        cell.groupInfo = groupInfoList[selectIndex]
-
+        cell.group = groupList[indexPath.row]
+        cell.groupInfo = groupInfoList[indexPath.row]
+        cell.delegate = self
+        
         return cell
     }
     
@@ -147,16 +159,36 @@ extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegat
     }
 }
 
-extension EmoticonInputView: UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
+extension EmoticonInputView: UIScrollViewDelegate {
     
+    // 切换表情组
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
-        pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.width)
-
+        let currentIndex = Int(scrollView.contentOffset.x / scrollView.width)
+        if selectIndex == currentIndex {
+            return
+        }
+        selectIndex = currentIndex
+        
+        var currentInfo = groupInfoList[selectIndex]
+        // 从右向左 滚动
+        if scrollView.panGestureRecognizer.translation(in: self).x > 0 {
+            currentInfo.currentIndex = currentInfo.page - 1
+            pageControl.currentPage = currentInfo.currentIndex
+        } else {
+            currentInfo.currentIndex = 0
+            pageControl.currentPage = currentInfo.currentIndex
+        }
+        // 设置 pageControl
+        pageControl.numberOfPages = currentInfo.page
+ 
+        // 切换toolView
+        toolView.updateEmoticonGroup(selectIndex)
         
     }
 }
 
+//MARK: EmoticonToolViewDelegate
 extension EmoticonInputView: EmoticonToolViewDelegate {
     
     // 这个是否需要直接把button事件添加到 EmoticonInputView
@@ -166,10 +198,29 @@ extension EmoticonInputView: EmoticonToolViewDelegate {
     
     func didChangeEmoticonGroup(_ index: Int) {
         
-        
+        selectIndex = index
+        reload()
     }
     
 }
+
+extension EmoticonInputView: EmoticonPageCellDelegate {
+
+    func emoticonPageCell(_ cell: EmoticonPageCell, didSelect emoticon: Emoticon?) {
+        if let emoticon = emoticon {
+            print(emoticon.title)
+        } else {
+            //删除按钮
+            print("删除按钮")
+        }
+    }
+    
+    func emoticonPageCell(_ cell: EmoticonPageCell, didScroll index: Int) {
+        pageControl.currentPage = index
+        groupInfoList[selectIndex].currentIndex = index
+    }
+}
+
 
 // MARK: - EmoticonInputViewLayoutDelegate
 //extension EmoticonInputView: EmoticonInputViewLayoutDelegate {
