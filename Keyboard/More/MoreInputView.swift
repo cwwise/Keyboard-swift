@@ -43,7 +43,7 @@ class MoreInputView: UIView {
         layout.minimumInteritemSpacing = 0
         layout.itemSize = CGSize(width: itemWidth, height: kOneItemHeight)
         
-        let frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: kOneItemHeight*CGFloat(kOnePageLines))
+        let frame = CGRect(x: 0, y: 10, width: self.bounds.width, height: kOneItemHeight*CGFloat(kOnePageLines))
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.register(MoreItemCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self

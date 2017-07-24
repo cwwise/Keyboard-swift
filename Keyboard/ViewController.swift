@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var keyboard: Keyboard!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,12 +24,13 @@ class ViewController: UIViewController {
     
     func test() {
         self.view.endEditing(true)
+        keyboard.endInputing()
     }
     
     func testKeyboard() {
         
         let frame = CGRect(x: 0, y: self.view.height-49, width: self.view.width, height: 216+49)
-        let keyboard = Keyboard(frame: frame)
+        keyboard = Keyboard(frame: frame)
         keyboard.backgroundColor = UIColor.orange
         self.view.addSubview(keyboard)
         

@@ -30,6 +30,8 @@ class Keyboard: UIView {
     var status: ToolViewStatus = .none
     
     var keyBoardFrameTop: CGFloat = 0
+    // 屏蔽模态视图中 收到其他界面的键盘通知
+    var close: Bool = false
     
     //MARK: 属性
     lazy var toolView: ToolView = {
@@ -60,6 +62,17 @@ class Keyboard: UIView {
         super.init(frame: frame)
     }
     
+    func endInputing() {
+        refreshStatus(.none)
+        if self.toolView.showsKeyboard {
+            self.toolView.showsKeyboard = false
+        } else {
+            UIView.animate(withDuration: 0.25) {
+                self.top = self.superview!.height - kToolViewHeight
+            }
+        }
+    }
+    
     override func didMoveToWindow() {
         setup()
     }
@@ -75,9 +88,14 @@ class Keyboard: UIView {
         toolView.moreButton.addTarget(self, action: #selector(handelMoreClick(_:)), for: .touchUpInside)        
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillChangeFrame(_:)),
-                                               name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+                                               selector: #selector(keyboardWillShowFrame(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow, object: nil)
      
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHideFrame(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        
         refreshStatus(.text)
     }
     
@@ -97,37 +115,51 @@ class Keyboard: UIView {
         let beginFrameValue = userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue
 
         self.keyBoardFrameTop = endFrameValue.cgRectValue.minY
-        willShowKeyboard(from: beginFrameValue.cgRectValue, to: endFrameValue.cgRectValue)
-    }
-    
-    func willShowKeyboard(from beginFrame: CGRect, to endFrame: CGRect) {
         
-        self.refreshStatus(self.status)
         
     }
-
     
-    func refreshStatus(_ status: ToolViewStatus) {
+    func keyboardWillShowFrame(_ notification: Notification) {
         
-        self.status = status
-        self.toolView.updateStatus(status)
+        let userInfo = notification.userInfo!
+        let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let beginFrameValue = userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue
         
-        switch status {
-        case .text, .audio:
-            if self.toolView.showsKeyboard {
-                self.top = self.keyBoardFrameTop - self.toolView.height
-            } else {
-                self.top = self.superview!.height - self.toolView.height
+        UIView.animate(withDuration: 0.25) {
+            self.top = endFrameValue.cgRectValue.minY - kToolViewHeight
+        }
+    }
+    
+    func keyboardWillHideFrame(_ notification: Notification) {
+        // 收到键盘消失
+        let userInfo = notification.userInfo!
+        let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        // 判断情况 如果键盘模式和语音 则下落
+        if self.status == .text || self.status == .audio {
+            
+            UIView.animate(withDuration: 0.25) {
+                self.top = endFrameValue.cgRectValue.minY - kToolViewHeight
             }
             
-        case .more, .emoticon:
-            self.bottom = self.superview!.height
-        default: 
+        } else {
             
-            break
+            
             
         }
         
+        // 如果是表情和更多则保持高度
+        
+        
+    }
+    
+    
+    func refreshStatus(_ status: ToolViewStatus) {
+        
+        if <#condition#> {
+            <#code#>
+        }
+        
+        self.status = status
     }
     
     // MARK: Action
@@ -140,7 +172,11 @@ class Keyboard: UIView {
         if self.status != .emoticon {
             
             self.bringSubview(toFront: emoticonInputView)
-            emoticonInputView.isHidden = false
+            moreInputView.alpha = 0
+            emoticonInputView.alpha = 1
+            UIView.animate(withDuration: 0.25, animations: {
+                self.emoticonInputView.top = kToolViewHeight
+            })
             
             if self.toolView.showsKeyboard {
                 self.status = .emoticon
@@ -161,7 +197,12 @@ class Keyboard: UIView {
         if self.status != .more {
             
             self.bringSubview(toFront: moreInputView)
-            moreInputView.isHidden = false
+            moreInputView.alpha = 1
+            emoticonInputView.alpha = 0
+
+            UIView.animate(withDuration: 0.25, animations: {
+                self.moreInputView.top = kToolViewHeight
+            })
             
             if self.toolView.showsKeyboard {
                 self.status = .more
@@ -174,14 +215,6 @@ class Keyboard: UIView {
             self.status = .more
             self.toolView.showsKeyboard = true
         }
-
-        
-    }
-    
-    override func layoutSubviews() {
-        superview?.layoutSubviews()
-        //moreInputView.top = toolView.bottom
-        //emoticonInputView.top = toolView.bottom
     }
     
 }
@@ -202,6 +235,15 @@ extension Keyboard: ToolViewDelegate {
     
     func textViewShouldBeginEditing() {
         self.status = .text
+        UIView.animate(withDuration: 0.25, animations: {
+            self.emoticonInputView.alpha = 0
+            self.moreInputView.alpha = 0
+
+        }) { (finshed) in
+            self.moreInputView.top = kInputViewHeight
+            self.emoticonInputView.top = kInputViewHeight
+        }
+
     }
 }
 

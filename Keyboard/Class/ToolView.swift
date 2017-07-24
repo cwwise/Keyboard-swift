@@ -20,7 +20,9 @@ private let kItemSpacing: CGFloat = 3
 private let kTextViewPadding: CGFloat = 6
 
 protocol ToolViewDelegate: class {
+    
     func textViewShouldBeginEditing()
+    
 }
 
 /// 输入框按钮
