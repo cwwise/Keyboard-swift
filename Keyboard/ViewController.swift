@@ -74,7 +74,7 @@ class ViewController: UIViewController {
             groupList.append(qqemoticon)
         }
         
-        if let liemoticon = EmoticonGroup(identifier: "cn.com.a-li") {
+        if let _ = EmoticonGroup(identifier: "cn.com.a-li") {
            // groupList.append(liemoticon)
         }
         
