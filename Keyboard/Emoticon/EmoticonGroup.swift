@@ -9,12 +9,12 @@
 import UIKit
 import SwiftyJSON
 
-enum EmoticonGroupType {
+public enum EmoticonGroupType {
     case normal
     case big
 }
 
-class EmoticonGroup: NSObject {
+public class EmoticonGroup: NSObject {
     
     // id
     var id: String
@@ -43,7 +43,7 @@ class EmoticonGroup: NSObject {
     
 }
 
-extension EmoticonGroup {
+public extension EmoticonGroup {
     
     convenience init?(identifier : String) {
         let bundle = Bundle.main
@@ -74,7 +74,6 @@ extension EmoticonGroup {
         
         self.init(id: id, icon: directory + "/" + icon, emoticons: emoticons)
             
-     
     }
     
 }

@@ -9,12 +9,15 @@
 import UIKit
 
 struct EmoticonGroupInfo {
-    let row: Int     // 行
-    let column: Int  // 列
-    let page: Int    // 页数
-    
+    /// 行
+    let row: Int     
+    /// 列
+    let column: Int  
+    /// 页数
+    let page: Int    
+    /// 当前页数
     var currentIndex: Int = 0
-    
+    /// 每页表情的数量 包含删除按钮
     var onePageCount: Int {
         return row*column
     }
@@ -23,14 +26,14 @@ struct EmoticonGroupInfo {
 private let kEmoticonHeight: CGFloat = 50
 private let kToolViewHeight: CGFloat = 37
 
-protocol EmoticonInputViewDelegate: class {
+public protocol EmoticonInputViewDelegate: class {
     
     func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon?)
    
     func didPressSend()
 }
 
-class EmoticonInputView: UIView {
+public class EmoticonInputView: UIView {
 
     weak var delegate: EmoticonInputViewDelegate?
     
@@ -49,7 +52,7 @@ class EmoticonInputView: UIView {
     }
     
     func setupUI() {
-        self.backgroundColor = UIColor.lightGray
+        self.backgroundColor = UIColor(hex: "#E4EBF0")
         setupCollectionView()
         setupPageControl()
         setupToolView()
@@ -78,8 +81,8 @@ class EmoticonInputView: UIView {
     func setupPageControl() {
         let frame = CGRect(x: 0, y: collectionView.bottom, width: self.bounds.width, height: 15)
         pageControl = UIPageControl(frame: frame)
-        pageControl.currentPageIndicatorTintColor = UIColor.blue
-        pageControl.pageIndicatorTintColor = UIColor.orange
+        pageControl.currentPageIndicatorTintColor = UIColor(hex: "#8B8B8B")
+        pageControl.pageIndicatorTintColor = UIColor(hex: "#D6D6D6")
         self.addSubview(pageControl)
     }
     
@@ -107,10 +110,11 @@ class EmoticonInputView: UIView {
             if group.type == .normal {
                 row = 3
                 column = 8
-                page = Int(ceil(Float(group.count) / Float(row*column-1)))
             } else {
-                
+                row = 2
+                column = 5
             }
+            page = Int(ceil(Float(group.count) / Float(row*column-1)))
             let info = EmoticonGroupInfo(row: row, column: column, page: page, currentIndex: 0)
             groupInfoList.append(info)
         }
@@ -130,7 +134,7 @@ class EmoticonInputView: UIView {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -139,11 +143,11 @@ class EmoticonInputView: UIView {
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return groupList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonPageCell
        
         cell.group = groupList[indexPath.row]
@@ -154,7 +158,7 @@ extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
 }
@@ -162,7 +166,7 @@ extension EmoticonInputView: UICollectionViewDataSource, UICollectionViewDelegat
 extension EmoticonInputView: UIScrollViewDelegate {
     
     // 切换表情组
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         let currentIndex = Int(scrollView.contentOffset.x / scrollView.width)
         if selectIndex == currentIndex {

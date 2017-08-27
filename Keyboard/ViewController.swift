@@ -10,14 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var tapGesture: UITapGestureRecognizer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
        // testMore()
-        testKeyboard()
-     //   testEmoticon()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(test))
-        self.view.addGestureRecognizer(tapGesture)
+        //testKeyboard()
+        testEmoticon()
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(test))
+        //self.view.addGestureRecognizer(tapGesture)
     }
     
     func test() {

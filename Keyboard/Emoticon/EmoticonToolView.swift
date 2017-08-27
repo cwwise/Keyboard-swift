@@ -37,10 +37,10 @@ class EmoticonToolView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         collectionView.register(EmoticonToolItemCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.dataSource = self
         collectionView.backgroundColor = .white
         collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         collectionView.delegate = self
+        collectionView.dataSource = self
         collectionView.scrollsToTop = false
         collectionView.alwaysBounceHorizontal = true
         collectionView.showsVerticalScrollIndicator = false
@@ -143,6 +143,7 @@ class EmoticonToolView: UIView {
 extension EmoticonToolView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
         if indexPath.row == selectIndex {
             return
         }
@@ -151,42 +152,32 @@ extension EmoticonToolView: UICollectionViewDelegate {
         changeAnimate(indexPath.row == 0)
         // 通知代理
         self.delegate?.didChangeEmoticonGroup(indexPath.row)
-        
     }
     
     func changeAnimate(_ showSendButton: Bool) {
-        
+                
         // 切换动画
         // 是一个 显示发送按钮
         if showSendButton {
-            
             UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
                 self.settingButton.left = self.width
             }, completion: { (finshed) in
-                
                 UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
                     self.sendButton.left = self.width-self.sendButton.width            
                 }, completion: { (finshed) in
                     
                 })
-                
             })
-            
-            
         } else {
-            
             UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
                 self.sendButton.left = self.width            
             }, completion: { (finshed) in
-                
                 UIView.animate(withDuration: kDurationTime, delay: 0, options: .curveEaseInOut, animations: { 
                     self.settingButton.left = self.width-self.settingButton.width            
                 }, completion: { (finshed) in
                     
                 })
-                
             })
-            
         }  
         
     }

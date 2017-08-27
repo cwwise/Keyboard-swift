@@ -13,6 +13,8 @@ protocol EmoticonPageCellDelegate: class {
     func emoticonPageCell(_ cell: EmoticonPageCell, didScroll index: Int)
 }
 
+private let superView = UIApplication.shared.keyWindow!
+
 class EmoticonPageCell: UICollectionViewCell {
     
     weak var delegate: EmoticonPageCellDelegate?
@@ -20,7 +22,6 @@ class EmoticonPageCell: UICollectionViewCell {
     var groupInfo: EmoticonGroupInfo!
     var group: EmoticonGroup!
     
-    // 预览(需要修复的问题 越边界的问题 上面)
     var previewer: EmoticonPreviewer!
     var collectionView: UICollectionView!
     
@@ -45,9 +46,9 @@ class EmoticonPageCell: UICollectionViewCell {
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         self.addGestureRecognizer(longPress)
-        previewer = EmoticonPreviewer(frame: CGRect.zero)
+        previewer = EmoticonPreviewer()
         previewer.isHidden = true
-        self.addSubview(previewer)
+        superView.addSubview(previewer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,60 +61,34 @@ class EmoticonPageCell: UICollectionViewCell {
 extension EmoticonPageCell {
     
     func longPress(_ gesture: UILongPressGestureRecognizer) {
-
-        switch gesture.state {
-        case .began:
-            let point = gesture.location(in: self.collectionView)
-            let cell = cellForPoint(point)
-            touchesBegan(cell)
-            
-        case .changed:
-            let point = gesture.location(in: self.collectionView)
-            let cell = cellForPoint(point)
-            touchesMoved(cell)
-            
-        default:
-            previewer.hidePreview()
-            break
-        }
-    }
-    
-    func touchesBegan(_ cell: EmoticonCell?) {
         
-        guard let cell = cell,
-         cell.isDelete == false else {
+        if gesture.state == .ended {
+            previewer.isHidden = true
             return
         }
-    
-        currentPreviewerCell = cell
-        let rect = cell.convert(cell.bounds, to: self)
-        previewer.preview(from: rect, emoticonCell: cell)
-    }
-    
-    func touchesMoved(_ cell: EmoticonCell?) {
-        
-        if let currentCell = currentPreviewerCell, currentCell.isDelete == true {
-            return
-        }
-        
-        guard let cell = cell, cell != currentPreviewerCell else {
-            return
-        }
-        
-        currentPreviewerCell = cell
-        let rect = cell.convert(cell.bounds, to: self)
-        previewer.preview(from: rect, emoticonCell: cell)
-    }
-
-    
-    func cellForPoint(_ point: CGPoint) -> EmoticonCell? {
-
+        // 选中cell不是删除按钮
+        let point = gesture.location(in: self.collectionView)
         guard let indexPath = self.collectionView.indexPathForItem(at: point),
-            let cell = self.collectionView.cellForItem(at: indexPath) as? EmoticonCell else {
-                return nil
+            let cell = self.collectionView.cellForItem(at: indexPath) as? EmoticonCell,
+           cell.isDelete == false else {
+            previewer.isHidden = true
+            return
         }
-        return cell
+        
+        // 判断选择的cell是否与之前的cell相同
+        if cell == currentPreviewerCell {
+            previewer.isHidden = false
+            return
+        }
+        
+        currentPreviewerCell = cell
+        
+        let rect = cell.convert(cell.bounds, to: superView)
+        previewer.preview(from: rect, emoticonCell: cell)
+        
+
     }
+
 }
 
 

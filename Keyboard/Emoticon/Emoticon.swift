@@ -9,13 +9,11 @@
 import UIKit
 
 public enum EmoticonType: Int {
-    case favorite
-    case emoji
     case image
     case expression     // 图片
 }
 
-class Emoticon: NSObject {
+public class Emoticon: NSObject {
     
     /// 表情类型
     var type: EmoticonType
@@ -27,13 +25,11 @@ class Emoticon: NSObject {
     var png: String?
     
     var gif: String?
-
-    // 表情emotion
-    var code: String?
-
-    convenience init(code: String) {
-        self.init(code: code, type: .emoji)
-    }
+    
+    // 大图
+    var originalUrl: URL?
+    // 小图
+    var thumbUrl: URL?
     
     convenience init(title: String, png: String) {
         self.init(title: title, png: png, type: .image)
@@ -51,10 +47,9 @@ class Emoticon: NSObject {
         self.title = title
         self.png = png
         self.type = type
-        self.code = code
     }
     
-    override var description: String {
+    public override var description: String {
         return self.title ?? "无title"
     }
     

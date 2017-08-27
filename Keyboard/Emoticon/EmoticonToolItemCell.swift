@@ -11,7 +11,7 @@ import UIKit
 class EmoticonToolItemCell: UICollectionViewCell {
 
     var imageView: UIImageView = UIImageView()
-    private lazy var line: CALayer = CALayer()
+    private var line: CALayer = CALayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,6 @@ class EmoticonToolItemCell: UICollectionViewCell {
         
         selectedBackgroundView = UIView()
         selectedBackgroundView?.backgroundColor = UIColor(red:0.93, green:0.93, blue:0.95, alpha:1.00)
-
     }
     
     
