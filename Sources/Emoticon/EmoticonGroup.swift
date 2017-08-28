@@ -23,7 +23,7 @@ public class EmoticonGroup: NSObject {
     // 标签类型
     var type: EmoticonGroupType = .normal
     /// 表情图像路径
-    var icon: String
+    var iconPath: String
     /// 表情数组
     var emoticons: [Emoticon] = []
     
@@ -37,7 +37,7 @@ public class EmoticonGroup: NSObject {
          emoticons: [Emoticon]) {
         self.id = id
         self.name = name
-        self.icon = icon
+        self.iconPath = icon
         self.emoticons = emoticons
     }
     
@@ -68,7 +68,7 @@ public extension EmoticonGroup {
             // 需要添加@2x
             let imagePath = directory + "/" + id + "@2x.png"
             
-            let emoticon = Emoticon(title: title, path: URL(fileURLWithPath: imagePath))
+            let emoticon = Emoticon(id: id, title: title, path: URL(fileURLWithPath: imagePath))
             emoticon.id = id
             emoticons.append(emoticon)
         }

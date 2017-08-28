@@ -69,13 +69,9 @@ class ViewController: UIViewController {
             groupList.append(qqemoticon)
         }
         
-        if let qqemoticon = EmoticonGroup(identifier: "com.qq.classic") {
-            qqemoticon.emoticons.reverse()
-            groupList.append(qqemoticon)
-        }
-        
-        if let _ = EmoticonGroup(identifier: "cn.com.a-li") {
-           // groupList.append(liemoticon)
+        if let liemoticon = EmoticonGroup(identifier: "cn.com.a-li") {
+            liemoticon.type = .big
+            groupList.append(liemoticon)
         }
         
         

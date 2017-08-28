@@ -115,6 +115,15 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonCell
         
         let emoticonOfPage = groupInfo.onePageCount - 1
+        
+        // 先判断表情是否为本地表情 是本地表情则 显示删除按钮
+        if group.type == .big {
+            
+        } else {
+            
+        }
+        
+        
         // 最后一个cell 则显示删除按钮
         if indexPath.row == emoticonOfPage {
             cell.isDelete = true

@@ -17,7 +17,7 @@ struct EmoticonGroupInfo {
     let page: Int    
     /// 当前页数
     var currentIndex: Int = 0
-    /// 每页表情的数量 包含删除按钮
+    /// 每页表情的数量
     var onePageCount: Int {
         return row*column
     }
@@ -110,11 +110,13 @@ public class EmoticonInputView: UIView {
             if group.type == .normal {
                 row = 3
                 column = 8
+                page = Int(ceil(Float(group.count) / Float(row*column-1)))
             } else {
                 row = 2
-                column = 5
+                column = 4
+                // 不需要删除按钮
+                page = Int(ceil(Float(group.count) / Float(row*column)))
             }
-            page = Int(ceil(Float(group.count) / Float(row*column-1)))
             let info = EmoticonGroupInfo(row: row, column: column, page: page, currentIndex: 0)
             groupInfoList.append(info)
         }

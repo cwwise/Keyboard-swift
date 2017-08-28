@@ -193,7 +193,7 @@ extension EmoticonToolView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonToolItemCell
         
-        cell.imageView.image = UIImage(contentsOfFile: groupList[indexPath.row].icon)
+        cell.imageView.image = UIImage(contentsOfFile: groupList[indexPath.row].iconPath)
 
         return cell
     }

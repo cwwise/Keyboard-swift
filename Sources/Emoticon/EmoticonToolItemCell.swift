@@ -35,6 +35,7 @@ class EmoticonToolItemCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.center = CGPoint(x: bounds.midX, y: bounds.midY)
+        
         line.frame = CGRect(x: bounds.maxX - 0.25, y: 8, width: 0.5, height: bounds.height - 16)
     }
     

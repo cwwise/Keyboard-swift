@@ -10,40 +10,46 @@ import UIKit
 
 public enum EmoticonType: Int {
     case image
-    case expression     // 图片
+
+    case local
+    case network
+}
+
+public enum EmoticonFormat {
+    case image  // png jpg
+    case gif
 }
 
 public class Emoticon: NSObject {
+    /// 唯一id
+    var id: String
     
-    /// 表情类型
-    var type: EmoticonType
-    
-    var id: String?
-    /// 文字
+   // var type: EmoticonType
+    /// 表情格式
+    var format: EmoticonFormat = .image
+    /// 标题
     var title: String?
     
-    var gif: String?    
+    var size: CGSize = CGSize.zero
+    
     // 原图（本地路径 或者 网络路径）
     var originalUrl: URL?
     // 小图
     var thumbUrl: URL?
     
     // 小表情 
-    convenience init(title: String, path: URL) {
-        self.init(title: title, originalUrl: path, type: .image)
+    convenience init(id: String, title: String, path: URL) {
+        self.init(id: id, title: title, originalUrl: path, type: .image)
     }
     
-    convenience init(express title: String, originalUrl: URL, gif: String? = nil) {
-        self.init(title: title, originalUrl: originalUrl, gif: gif, type: .expression)
-    }
-    
-    private init(title: String? = nil,
+    private init(id: String,
+                 title: String? = nil,
                  originalUrl: URL? = nil,
-                 gif: String? = nil,
                  type: EmoticonType) {
+        self.id = id
         self.originalUrl = originalUrl
         self.title = title
-        self.type = type
+    //    self.type = type
     }
     
     public override var description: String {

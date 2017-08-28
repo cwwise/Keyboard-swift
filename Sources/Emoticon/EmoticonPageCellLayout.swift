@@ -83,7 +83,10 @@ extension EmoticonPageCellLayout {
         let paddingLeft = CGFloatPixelRound(padding)
         let _ = collectionViewWidth - paddingLeft - itemWidth * CGFloat(emoticonColumn) 
         
-        let itemSize = CGSize(width: itemWidth, height: itemWidth)
+        var itemHeight = (collectionViewHeight - edgeInset.top - edgeInset.bottom)/CGFloat(emoticonRow)
+        itemHeight = CGFloatPixelRound(itemHeight)
+
+        let itemSize = CGSize(width: itemWidth, height: itemHeight)
         
         let sections = collectionView.numberOfSections
         for section in 0..<sections {
