@@ -4,7 +4,7 @@
 
 [![Swift3.1](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://developer.apple.com/swift/)
 <img src="https://img.shields.io/badge/platform-iOS_9.0+-ff69b4.svg">
-[![License](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/cwwise/CWWeChat/blob/master/LICENSE)
+[![License](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/cwwise/Keyboard-swift/blob/master/LICENSE)
 
 
 ## 目录
@@ -21,15 +21,14 @@
 
 ## <a id="功能"></a>功能
 
-表情键盘
-更多键盘
-整体键盘逻辑
+- [x] 表情键盘
+- [x] 更多键盘
+- [ ] 整体键盘逻辑
 
 
 ## <a id="预览"></a>预览
 
-![1](https://github.com/cwwise/Keyboard-swift/blob/master/Preview/Emoticon_1.png)
-![1](https://github.com/cwwise/Keyboard-swift/blob/master/Preview/Emoticon_2.png)
+ ![image](https://github.com/cwwise/Keyboard-swift/blob/master/Preview/Emoticon_1.png) ![image](https://github.com/cwwise/Keyboard-swift/blob/master/Preview/Emoticon_2.png)
 
 
 
