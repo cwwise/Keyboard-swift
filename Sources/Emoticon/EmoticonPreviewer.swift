@@ -9,11 +9,9 @@
 import UIKit
 import Kingfisher
 
-protocol EmoticonResource {
-    
-}
-
 private let magnifierSize = CGSize(width: 60, height: 100)
+private let magnifierBigSize = CGSize(width: 140, height: 155)
+
 /// 表情长按之后效果
 class EmoticonPreviewer: UIView {
 
@@ -33,10 +31,17 @@ class EmoticonPreviewer: UIView {
         return magnifierLabel
     }()
     
+    var emoticonType: EmoticonType = .normal {
+        didSet {
+            setupMagnifierContent()
+        }
+    }
+    
     // 内容部分
     var magnifierContent: AnimatedImageView = {
         let magnifierContent = AnimatedImageView()
         magnifierContent.size = CGSize(width: 35, height: 35)
+        magnifierContent.contentMode = .scaleAspectFit
         return magnifierContent
     }()
     
@@ -48,42 +53,65 @@ class EmoticonPreviewer: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(magnifier)
-        magnifier.addSubview(magnifierContent)
-        magnifier.addSubview(magnifierLabel)
         
         magnifierContent.centerX = magnifier.width/2
         magnifierContent.top = 5;
-
-        magnifierLabel.centerX = magnifier.width/2        
+        
+        magnifierLabel.centerX = magnifier.width/2
         magnifierLabel.top = magnifierContent.bottom + 2
+        
+        magnifier.addSubview(magnifierContent)
+        magnifier.addSubview(magnifierLabel)
     }
     
-    func preview(from rect: CGRect, emoticonCell: EmoticonCell) {
-       
-        self.centerX = rect.midX
-        self.bottom = rect.maxY
-        self.isHidden = false
+    func setupMagnifierContent() {
+        
+        if emoticonType == .normal {
+            
+            magnifierLabel.centerX = magnifier.width/2
+            magnifierLabel.top = magnifierContent.bottom + 2
 
-        // 普通表情 和 大图表情 处理不一样
-        magnifierLabel.text = emoticonCell.emoticon?.title
-        
-        magnifierContent.image = emoticonCell.imageView.image
-        magnifierContent.layer.removeAllAnimations()
-        
-        let duration = 0.1
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
-            self.magnifierContent.top = 3
-        }) { (finished) in
-            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
-                self.magnifierContent.top = 6
-            }) { (finished) in
-                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
-                    self.magnifierContent.top = 5
-                }) { (finished) in
-                }
-            }
+        } else {
+            
+            self.size = magnifierBigSize
+            self.magnifierContent.frame = CGRect(x: 10, y: 10, width: self.width-2*10, height: self.height-10-25)
+            self.magnifier.frame = CGRect(origin: CGPoint.zero, size: magnifierBigSize)
         }
         
+    }
+    
+    
+    func preview(from rect: CGRect, emoticon: Emoticon) {
+       
+        self.centerX = rect.midX
+        self.isHidden = false
+
+        if emoticon.type == .normal {
+            
+            self.bottom = rect.maxY
+            // 普通表情 和 大图表情 处理不一样
+            magnifierLabel.text = emoticon.title
+            magnifierContent.layer.removeAllAnimations()
+            
+            let duration = 0.1
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
+                self.magnifierContent.top = 3
+            }) { (finished) in
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                    self.magnifierContent.top = 6
+                }) { (finished) in
+                    UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                        self.magnifierContent.top = 5
+                    }) { (finished) in
+                    }
+                }
+            }
+        } else {
+            self.bottom = rect.minY + 10
+            self.magnifier.image = self.backgroundImage()
+        }
+        magnifierContent.kf.setImage(with: emoticon.originalUrl)
+
     }
     
     func backgroundImage() -> UIImage? {

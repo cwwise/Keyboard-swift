@@ -8,38 +8,31 @@
 
 import UIKit
 
-public enum EmoticonType: Int {
-    case image
-
-    case local
-    case network
-}
-
 public enum EmoticonFormat {
     case image  // png jpg
     case gif
 }
 
 public class Emoticon: NSObject {
+    
     /// 唯一id
     var id: String
-    
-   // var type: EmoticonType
+    ///
+    var type: EmoticonType
     /// 表情格式
     var format: EmoticonFormat = .image
     /// 标题
     var title: String?
-    
+    ///
     var size: CGSize = CGSize.zero
-    
     // 原图（本地路径 或者 网络路径）
     var originalUrl: URL?
     // 小图
     var thumbUrl: URL?
     
-    // 小表情 
+    //
     convenience init(id: String, title: String, path: URL) {
-        self.init(id: id, title: title, originalUrl: path, type: .image)
+        self.init(id: id, title: title, originalUrl: path, type: .normal)
     }
     
     private init(id: String,
@@ -49,7 +42,7 @@ public class Emoticon: NSObject {
         self.id = id
         self.originalUrl = originalUrl
         self.title = title
-    //    self.type = type
+        self.type = type
     }
     
     public override var description: String {

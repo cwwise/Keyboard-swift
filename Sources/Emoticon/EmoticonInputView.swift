@@ -180,16 +180,17 @@ extension EmoticonInputView: UIScrollViewDelegate {
         // 从右向左 滚动
         if scrollView.panGestureRecognizer.translation(in: self).x > 0 {
             currentInfo.currentIndex = currentInfo.page - 1
-            pageControl.currentPage = currentInfo.currentIndex
         } else {
             currentInfo.currentIndex = 0
-            pageControl.currentPage = currentInfo.currentIndex
         }
         // 设置 pageControl
         pageControl.numberOfPages = currentInfo.page
- 
+        pageControl.currentPage = currentInfo.currentIndex
+
         // 切换toolView
         toolView.updateEmoticonGroup(selectIndex)
+        
+        // 需要刷新 cell
         
     }
 }

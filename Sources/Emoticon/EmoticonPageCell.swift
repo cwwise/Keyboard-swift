@@ -24,7 +24,13 @@ class EmoticonPageCell: UICollectionViewCell {
     
     var group: EmoticonGroup!
     
-    var previewer: EmoticonPreviewer!
+    lazy var previewer: EmoticonPreviewer = {
+        let previewer = EmoticonPreviewer()
+        previewer.isHidden = true
+        superView.addSubview(previewer)
+        previewer.emoticonType = self.group.type
+        return previewer
+    }()
     
     var collectionView: UICollectionView!
     
@@ -51,9 +57,7 @@ class EmoticonPageCell: UICollectionViewCell {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         self.addGestureRecognizer(longPress)
         
-        previewer = EmoticonPreviewer()
-        previewer.isHidden = true
-        superView.addSubview(previewer)
+     
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -89,7 +93,7 @@ extension EmoticonPageCell {
         currentPreviewerCell = cell
         
         let rect = cell.convert(cell.bounds, to: superView)
-        previewer.preview(from: rect, emoticonCell: cell)
+        previewer.preview(from: rect, emoticon: cell.emoticon!)
     }
 
 }
@@ -114,18 +118,14 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonCell
         
-        let emoticonOfPage = groupInfo.onePageCount - 1
-        
-        // 先判断表情是否为本地表情 是本地表情则 显示删除按钮
+        var emoticonOfPage = groupInfo.onePageCount - 1
+        // 先判断表情是否为大表情
         if group.type == .big {
-            
-        } else {
-            
+            emoticonOfPage = groupInfo.onePageCount
         }
         
-        
         // 最后一个cell 则显示删除按钮
-        if indexPath.row == emoticonOfPage {
+        if indexPath.row == emoticonOfPage && group.type == .normal {
             cell.isDelete = true
             cell.emoticon = nil
         } else {
@@ -142,10 +142,14 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let emoticonOfPage = groupInfo.onePageCount - 1
+        var emoticonOfPage = groupInfo.onePageCount - 1
+        // 先判断表情是否为大表情
+        if group.type == .big {
+            emoticonOfPage = groupInfo.onePageCount
+        }
+        
         let index = indexPath.row + emoticonOfPage*indexPath.section
-     
-        if indexPath.row == emoticonOfPage {
+        if indexPath.row == emoticonOfPage && group.type == .normal {
             self.delegate?.emoticonPageCell(self, didSelect: nil)
         } else if index < group.count {
             self.delegate?.emoticonPageCell(self, didSelect: group.emoticons[index])
@@ -163,6 +167,14 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
 
 
 extension EmoticonPageCell: EmoticonPageCellLayoutDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, layout: EmoticonPageCellLayout) -> UIEdgeInsets {
+        if group.type == .big {
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        } else {
+            return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
+        }
+    }
     
     func emoticonGroupInfo() -> EmoticonGroupInfo {
         return groupInfo

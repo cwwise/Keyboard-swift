@@ -48,9 +48,12 @@ class EmoticonCell: UICollectionViewCell {
             imageView.image = UIImage(named: "DeleteEmoticonBtn")
         } else {
             if let emoticon = emoticon {
-                
                 imageView.kf.setImage(with: emoticon.originalUrl)
-//                titleLabel.text = emoticon.id
+                if emoticon.type == .big {
+                    titleLabel.text = emoticon.title
+                } else {
+                    titleLabel.text = nil
+                }
             } else {
                 imageView.image = nil
                 titleLabel.text = nil
@@ -60,6 +63,11 @@ class EmoticonCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        if emoticon?.type == .big {
+            imageView.size = CGSize(width: 60, height: 55)
+        } else {
+            imageView.size = CGSize(width: 32, height: 32)
+        }
         imageView.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         titleLabel.frame = CGRect(x: 0, y: imageView.bottom, width: self.bounds.width, height: 12)
     }

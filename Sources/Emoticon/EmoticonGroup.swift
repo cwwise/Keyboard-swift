@@ -9,19 +9,18 @@
 import UIKit
 import SwiftyJSON
 
-public enum EmoticonGroupType {
+public enum EmoticonType: Int {
     case normal
     case big
 }
 
 public class EmoticonGroup: NSObject {
-    
     // id
     var id: String
     // 表情组 名称
     var name: String
     // 标签类型
-    var type: EmoticonGroupType = .normal
+    var type: EmoticonType = .normal
     /// 表情图像路径
     var iconPath: String
     /// 表情数组
@@ -60,7 +59,8 @@ public extension EmoticonGroup {
         let id = json["id"].stringValue
         let icon = json["image"].stringValue
         var emoticons: [Emoticon] = []
-        
+        let type = json["type"].intValue
+        let emoticonType = EmoticonType(rawValue: type) ?? .normal
         for item in emoticonsArray {
             let id = item["id"].stringValue
             let title = item["title"].stringValue
@@ -69,7 +69,7 @@ public extension EmoticonGroup {
             let imagePath = directory + "/" + id + "@2x.png"
             
             let emoticon = Emoticon(id: id, title: title, path: URL(fileURLWithPath: imagePath))
-            emoticon.id = id
+            emoticon.type = emoticonType
             emoticons.append(emoticon)
         }
         
