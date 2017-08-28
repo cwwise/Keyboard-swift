@@ -8,32 +8,31 @@
 
 import UIKit
 
-protocol EmoticonInputViewLayoutDelegate: class {
+protocol EmoticonPageCellLayoutDelegate: class {
 
     // 
-//    func emoticonGroupInfo() -> EmoticonGroupInfo
+    func emoticonGroupInfo() -> EmoticonGroupInfo
     
-    func collectionView(_ collectionView: UICollectionView, layout: EmoticonInputViewLayout) -> UIEdgeInsets
+    func collectionView(_ collectionView: UICollectionView, layout: EmoticonPageCellLayout) -> UIEdgeInsets
+}
+
+extension EmoticonPageCellLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout: EmoticonPageCellLayout) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
+    }
 }
 
 
-class EmoticonInputViewLayout: UICollectionViewLayout {
+class EmoticonPageCellLayout: UICollectionViewLayout {
 
-    weak var delegate: EmoticonInputViewLayoutDelegate?
+    weak var delegate: EmoticonPageCellLayoutDelegate?
     
     var cacheLayoutAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     // 
     var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
    
     var cacheContentSize: CGSize = CGSize.zero
-    
-    var itemSize: CGSize = .zero
-    
-    // column 列
-    var maxColumn: Int = 8
-    // row 行
-    var maxRow: Int = 3
-    
+        
     var edgeInset: UIEdgeInsets {
         if let edge = self.delegate?.collectionView(collectionView!, layout: self) {
             return edge
@@ -63,25 +62,28 @@ class EmoticonInputViewLayout: UICollectionViewLayout {
     
 }
 
-extension EmoticonInputViewLayout {
+extension EmoticonPageCellLayout {
     
     override func prepare() {
         super.prepare()
                 
-        // 1
-        guard let collectionView = collectionView else {
+        guard let collectionView = collectionView,
+        let groupInfo = self.delegate?.emoticonGroupInfo() else {
             return
         }
-        
+         
+       let emoticonColumn = groupInfo.column
+       let emoticonRow = groupInfo.row
+
         // 计算item 大小 
-        var itemWidth = (collectionViewWidth - 2*edgeInset.left)/CGFloat(maxColumn)
+        var itemWidth = (collectionViewWidth - 2*edgeInset.left)/CGFloat(emoticonColumn)
         itemWidth = CGFloatPixelRound(itemWidth)
         
-        let padding = (collectionViewWidth - CGFloat(maxColumn) * itemWidth) / 2.0
+        let padding = (collectionViewWidth - CGFloat(emoticonColumn) * itemWidth) / 2.0
         let paddingLeft = CGFloatPixelRound(padding)
-        let _ = collectionViewWidth - paddingLeft - itemWidth * CGFloat(maxColumn) 
+        let _ = collectionViewWidth - paddingLeft - itemWidth * CGFloat(emoticonColumn) 
         
-        itemSize = CGSize(width: itemWidth, height: itemWidth)
+        let itemSize = CGSize(width: itemWidth, height: itemWidth)
         
         let sections = collectionView.numberOfSections
         for section in 0..<sections {
@@ -93,10 +95,10 @@ extension EmoticonInputViewLayout {
                 let indexPath = IndexPath(item: item, section: section)
                 let attribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
 
-                let index = section*(maxColumn*maxRow)+item
+                let index = section*(emoticonColumn*emoticonRow)+item
                 
-                let ii = index % (maxColumn*maxRow) % maxColumn
-                let jj = index % (maxColumn*maxRow) / maxColumn
+                let ii = index % (emoticonColumn*emoticonRow) % emoticonColumn
+                let jj = index % (emoticonColumn*emoticonRow) / emoticonColumn
                                 
                 x = itemSize.width * CGFloat(ii) + collectionViewWidth*CGFloat(section) + paddingLeft
                 y = itemSize.height * CGFloat(jj) + edgeInset.top
@@ -108,7 +110,7 @@ extension EmoticonInputViewLayout {
         }
         
         cacheContentSize = CGSize(width: CGFloat(sections) * collectionViewWidth, 
-                                  height: edgeInset.top + CGFloat(maxRow)*itemSize.height + edgeInset.bottom)
+                                  height: edgeInset.top + CGFloat(emoticonRow)*itemSize.height + edgeInset.bottom)
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {

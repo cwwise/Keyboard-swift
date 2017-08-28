@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class EmoticonCell: UICollectionViewCell {
     
@@ -17,6 +18,7 @@ class EmoticonCell: UICollectionViewCell {
     }
     /// 是否为删除按钮
     var isDelete: Bool = false
+    
     /// 
     var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -25,6 +27,7 @@ class EmoticonCell: UICollectionViewCell {
         return imageView
     }()
     
+    /// 大表情时 展示title
     var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.gray
@@ -45,7 +48,8 @@ class EmoticonCell: UICollectionViewCell {
             imageView.image = UIImage(named: "DeleteEmoticonBtn")
         } else {
             if let emoticon = emoticon {
-                imageView.image = UIImage(contentsOfFile: emoticon.png!)
+                
+                imageView.kf.setImage(with: emoticon.originalUrl)
 //                titleLabel.text = emoticon.id
             } else {
                 imageView.image = nil

@@ -24,7 +24,7 @@
 		1FA4CFE71F5323B600CCF3B5 /* EmoticonPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD31F5323B600CCF3B5 /* EmoticonPageCell.swift */; };
 		1FA4CFE81F5323B600CCF3B5 /* EmoticonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD41F5323B600CCF3B5 /* EmoticonCell.swift */; };
 		1FA4CFE91F5323B600CCF3B5 /* EmoticonToolItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD51F5323B600CCF3B5 /* EmoticonToolItemCell.swift */; };
-		1FA4CFEA1F5323B600CCF3B5 /* EmoticonInputViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD61F5323B600CCF3B5 /* EmoticonInputViewLayout.swift */; };
+		1FA4CFEA1F5323B600CCF3B5 /* EmoticonPageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD61F5323B600CCF3B5 /* EmoticonPageCellLayout.swift */; };
 		1FA4CFEB1F5323B600CCF3B5 /* EmoticonInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD71F5323B600CCF3B5 /* EmoticonInputView.swift */; };
 		1FA4CFEC1F5323B600CCF3B5 /* EmoticonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD81F5323B600CCF3B5 /* EmoticonGroup.swift */; };
 		1FA4CFED1F5323B600CCF3B5 /* EmoticonToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFD91F5323B600CCF3B5 /* EmoticonToolView.swift */; };
@@ -68,7 +68,7 @@
 		1FA4CFD31F5323B600CCF3B5 /* EmoticonPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonPageCell.swift; sourceTree = "<group>"; };
 		1FA4CFD41F5323B600CCF3B5 /* EmoticonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonCell.swift; sourceTree = "<group>"; };
 		1FA4CFD51F5323B600CCF3B5 /* EmoticonToolItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonToolItemCell.swift; sourceTree = "<group>"; };
-		1FA4CFD61F5323B600CCF3B5 /* EmoticonInputViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonInputViewLayout.swift; sourceTree = "<group>"; };
+		1FA4CFD61F5323B600CCF3B5 /* EmoticonPageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonPageCellLayout.swift; sourceTree = "<group>"; };
 		1FA4CFD71F5323B600CCF3B5 /* EmoticonInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonInputView.swift; sourceTree = "<group>"; };
 		1FA4CFD81F5323B600CCF3B5 /* EmoticonGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonGroup.swift; sourceTree = "<group>"; };
 		1FA4CFD91F5323B600CCF3B5 /* EmoticonToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonToolView.swift; sourceTree = "<group>"; };
@@ -196,12 +196,12 @@
 			isa = PBXGroup;
 			children = (
 				1FA4CFD21F5323B600CCF3B5 /* Emoticon.swift */,
+				1FA4CFD81F5323B600CCF3B5 /* EmoticonGroup.swift */,
+				1FA4CFD71F5323B600CCF3B5 /* EmoticonInputView.swift */,
+				1FA4CFD61F5323B600CCF3B5 /* EmoticonPageCellLayout.swift */,
 				1FA4CFD31F5323B600CCF3B5 /* EmoticonPageCell.swift */,
 				1FA4CFD41F5323B600CCF3B5 /* EmoticonCell.swift */,
 				1FA4CFD51F5323B600CCF3B5 /* EmoticonToolItemCell.swift */,
-				1FA4CFD61F5323B600CCF3B5 /* EmoticonInputViewLayout.swift */,
-				1FA4CFD71F5323B600CCF3B5 /* EmoticonInputView.swift */,
-				1FA4CFD81F5323B600CCF3B5 /* EmoticonGroup.swift */,
 				1FA4CFD91F5323B600CCF3B5 /* EmoticonToolView.swift */,
 				1FA4CFDA1F5323B600CCF3B5 /* EmoticonPreviewer.swift */,
 			);
@@ -385,9 +385,18 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Keyboard/Pods-Keyboard-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -400,13 +409,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KeyboardTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ED8821A11B09355FA3318561 /* [CP] Check Pods Manifest.lock */ = {
@@ -415,13 +427,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Keyboard-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -432,7 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA4CFE71F5323B600CCF3B5 /* EmoticonPageCell.swift in Sources */,
-				1FA4CFEA1F5323B600CCF3B5 /* EmoticonInputViewLayout.swift in Sources */,
+				1FA4CFEA1F5323B600CCF3B5 /* EmoticonPageCellLayout.swift in Sources */,
 				1FA4CFF11F5323B600CCF3B5 /* Keyboard.swift in Sources */,
 				1FA4CFF01F5323B600CCF3B5 /* InputTextView.swift in Sources */,
 				1FA4CFE31F5323B600CCF3B5 /* MoreInputView.swift in Sources */,

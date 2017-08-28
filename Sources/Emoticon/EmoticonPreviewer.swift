@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol EmoticonResource {
     
@@ -33,8 +34,8 @@ class EmoticonPreviewer: UIView {
     }()
     
     // 内容部分
-    var magnifierContent: UIImageView = {
-        let magnifierContent = UIImageView()
+    var magnifierContent: AnimatedImageView = {
+        let magnifierContent = AnimatedImageView()
         magnifierContent.size = CGSize(width: 35, height: 35)
         return magnifierContent
     }()

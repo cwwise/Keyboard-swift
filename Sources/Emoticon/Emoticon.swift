@@ -21,31 +21,28 @@ public class Emoticon: NSObject {
     var id: String?
     /// 文字
     var title: String?
-    /// 图片路径
-    var png: String?
     
-    var gif: String?
-    
-    // 大图
+    var gif: String?    
+    // 原图（本地路径 或者 网络路径）
     var originalUrl: URL?
     // 小图
     var thumbUrl: URL?
     
-    convenience init(title: String, png: String) {
-        self.init(title: title, png: png, type: .image)
+    // 小表情 
+    convenience init(title: String, path: URL) {
+        self.init(title: title, originalUrl: path, type: .image)
     }
     
-    convenience init(express title: String, png: String, gif: String? = nil) {
-        self.init(title: title, png: png, gif: gif, type: .expression)
+    convenience init(express title: String, originalUrl: URL, gif: String? = nil) {
+        self.init(title: title, originalUrl: originalUrl, gif: gif, type: .expression)
     }
     
     private init(title: String? = nil,
-                 png: String? = nil,
-                 code: String? = nil,
+                 originalUrl: URL? = nil,
                  gif: String? = nil,
                  type: EmoticonType) {
+        self.originalUrl = originalUrl
         self.title = title
-        self.png = png
         self.type = type
     }
     

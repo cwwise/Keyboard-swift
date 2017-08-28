@@ -130,6 +130,8 @@ Pod::Spec.new do |s|
 
   # s.requires_arc = true
 
-  # s.dependency "JSONKit", "~> 1.4"
+  s.dependency "SwiftyJSON"
+  s.dependency "SnapKit"
+  s.dependency "Hue"
 
 end

@@ -201,7 +201,6 @@ extension EmoticonInputView: EmoticonToolViewDelegate {
     }
     
     func didChangeEmoticonGroup(_ index: Int) {
-        
         selectIndex = index
         reload()
     }
@@ -224,17 +223,4 @@ extension EmoticonInputView: EmoticonPageCellDelegate {
         groupInfoList[selectIndex].currentIndex = index
     }
 }
-
-
-// MARK: - EmoticonInputViewLayoutDelegate
-//extension EmoticonInputView: EmoticonInputViewLayoutDelegate {
-//
-//    func emoticonGroupInfo() -> EmoticonGroupInfo {
-//        return groupInfoList[0]
-//    }
-//
-//}
-
-
-
 

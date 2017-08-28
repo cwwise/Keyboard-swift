@@ -65,9 +65,10 @@ public extension EmoticonGroup {
             let id = item["id"].stringValue
             let title = item["title"].stringValue
             let _ = item["type"].stringValue
-            let image = directory + "/" + item["image"].stringValue
+            // 需要添加@2x
+            let imagePath = directory + "/" + id + "@2x.png"
             
-            let emoticon = Emoticon(title: title, png: image)
+            let emoticon = Emoticon(title: title, path: URL(fileURLWithPath: imagePath))
             emoticon.id = id
             emoticons.append(emoticon)
         }

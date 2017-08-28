@@ -15,14 +15,17 @@ protocol EmoticonPageCellDelegate: class {
 
 private let superView = UIApplication.shared.keyWindow!
 
+/// 每一组表情 展示的cell
 class EmoticonPageCell: UICollectionViewCell {
     
     weak var delegate: EmoticonPageCellDelegate?
     
     var groupInfo: EmoticonGroupInfo!
+    
     var group: EmoticonGroup!
     
     var previewer: EmoticonPreviewer!
+    
     var collectionView: UICollectionView!
     
     weak var currentPreviewerCell: EmoticonCell?
@@ -30,7 +33,8 @@ class EmoticonPageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
     
-        let layout = EmoticonInputViewLayout()
+        let layout = EmoticonPageCellLayout()
+        layout.delegate = self
         
         let frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: 160)
         collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
@@ -46,6 +50,7 @@ class EmoticonPageCell: UICollectionViewCell {
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         self.addGestureRecognizer(longPress)
+        
         previewer = EmoticonPreviewer()
         previewer.isHidden = true
         superView.addSubview(previewer)
@@ -85,8 +90,6 @@ extension EmoticonPageCell {
         
         let rect = cell.convert(cell.bounds, to: superView)
         previewer.preview(from: rect, emoticonCell: cell)
-        
-
     }
 
 }
@@ -108,9 +111,11 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmoticonCell
         
         let emoticonOfPage = groupInfo.onePageCount - 1
+        // 最后一个cell 则显示删除按钮
         if indexPath.row == emoticonOfPage {
             cell.isDelete = true
             cell.emoticon = nil
@@ -133,7 +138,7 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
      
         if indexPath.row == emoticonOfPage {
             self.delegate?.emoticonPageCell(self, didSelect: nil)
-        } else if index < group!.count {
+        } else if index < group.count {
             self.delegate?.emoticonPageCell(self, didSelect: group.emoticons[index])
         }
         
@@ -143,6 +148,15 @@ extension EmoticonPageCell: UICollectionViewDataSource, UICollectionViewDelegate
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         self.delegate?.emoticonPageCell(self, didScroll: index)
+    }
+    
+}
+
+
+extension EmoticonPageCell: EmoticonPageCellLayoutDelegate {
+    
+    func emoticonGroupInfo() -> EmoticonGroupInfo {
+        return groupInfo
     }
     
 }
