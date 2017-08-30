@@ -15,7 +15,7 @@ protocol MoreInputViewDelegate: NSObjectProtocol {
 
 private let kOnePageLines: Int = 2
 private let kOnePageLineItems: Int = 4
-private let kOneItemHeight: CGFloat = 280/3
+private let kOneItemHeight: CGFloat = 93
 
 class MoreInputView: UIView {
     
@@ -31,24 +31,19 @@ class MoreInputView: UIView {
     
     lazy var collectionView: UICollectionView = {
         
-        var itemWidth = (self.bounds.width - 10*2)/CGFloat(kOnePageLineItems)
-        itemWidth = CGFloatPixelRound(itemWidth)
-    
-        let padding = (self.bounds.width - CGFloat(kOnePageLineItems) * itemWidth) / 2.0
-        let paddingLeft = CGFloatPixelRound(padding)
-        
         var layout = MoreInputViewLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: itemWidth, height: kOneItemHeight)
+      
         
         let frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: kOneItemHeight*CGFloat(kOnePageLines))
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.register(MoreItemCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
@@ -56,8 +51,8 @@ class MoreInputView: UIView {
     }()
     
     lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 25))
-        pageControl.pageIndicatorTintColor = UIColor(hex: "#BBBBBB")
+        let pageControl = UIPageControl(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 15))
+        pageControl.pageIndicatorTintColor = UIColor(hex: "#D6D6D6")
         pageControl.currentPageIndicatorTintColor = UIColor(hex: "#8B8B8B")
         pageControl.hidesForSinglePage = true
         return pageControl
@@ -65,11 +60,10 @@ class MoreInputView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor(hex: "#E4EBF0")
         self.addSubview(collectionView)
         self.addSubview(pageControl)
         pageControl.top = collectionView.bottom
-
     }
     
     func loadData(_ data: [MoreItem]) {
