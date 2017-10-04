@@ -1,5 +1,5 @@
 //
-//  CWEmoticonInputViewLayout.swift
+//  EmoticonPageCellLayout.swift
 //  CWWeChat
 //
 //  Created by wei chen on 2017/7/19.

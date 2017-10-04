@@ -13,6 +13,11 @@ public enum EmoticonFormat {
     case gif
 }
 
+public enum EmoticonType: Int {
+    case normal
+    case big
+}
+
 public class Emoticon: NSObject {
     
     /// 唯一id

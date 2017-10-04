@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         //self.view.addGestureRecognizer(tapGesture)
     }
     
-    func test() {
+    @objc func test() {
         self.view.endEditing(true)
         keyboard.endInputing()
     }
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         var chatMoreKeyboardData: [MoreItem] = []
         for i in 0..<titleArray.count {
             let type = MoreItemType(rawValue: i)!
-            let item = MoreItem(title: titleArray[i], imagePath: imageArray[i], type: type)
+            let item = MoreItem(title: titleArray[i], imagename: imageArray[i], type: type)
             chatMoreKeyboardData.append(item)
         }
         keyboard.moreInputView.loadData(chatMoreKeyboardData)
@@ -96,7 +96,7 @@ class ViewController: UIViewController {
         var chatMoreKeyboardData: [MoreItem] = []
         for i in 0..<titleArray.count {
             let type = MoreItemType(rawValue: i)!
-            let item = MoreItem(title: titleArray[i], imagePath: imageArray[i], type: type)
+            let item = MoreItem(title: titleArray[i], imagename: imageArray[i], type: type)
             chatMoreKeyboardData.append(item)
         }
         

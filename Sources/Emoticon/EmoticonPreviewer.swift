@@ -144,6 +144,7 @@ class EmoticonPreviewer: UIView {
 
 }
 
+
 extension UIImage {
     
     func resizableImage() -> UIImage {

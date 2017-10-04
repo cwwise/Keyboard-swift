@@ -20,7 +20,7 @@ class InputTextView: UITextView {
             
             if placeHolder.characters.count > maxChars {
                 let index = placeHolder.characters.index(placeHolder.startIndex, offsetBy: -8)
-                placeHolder = placeHolder.substring(to: index)
+                placeHolder = String(placeHolder[..<index])
                 self.placeHolder = placeHolder + "..."
             }
             self.setNeedsDisplay()
@@ -122,7 +122,7 @@ class InputTextView: UITextView {
                                          height: rect.size.height);
             self.placeHolderTextColor?.set()
             let string = self.placeHolder! as NSString
-            string.draw(in: placeHolderRect, withAttributes: [NSFontAttributeName:self.font!])
+            string.draw(in: placeHolderRect, withAttributes: [NSAttributedStringKey.font:self.font!])
         }
         
     }

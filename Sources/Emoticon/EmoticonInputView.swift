@@ -25,26 +25,34 @@ struct EmoticonGroupInfo {
 
 private let kEmoticonHeight: CGFloat = 50
 private let kToolViewHeight: CGFloat = 37
+let kMoreInputViewHeight: CGFloat = 249
 
 public protocol EmoticonInputViewDelegate: class {
     
-    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon?)
+    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon)
    
-    func didPressSend()
+    func didPressDelete(_ inputView: EmoticonInputView)
+
+    func didPressSend(_ inputView: EmoticonInputView)
 }
 
 public class EmoticonInputView: UIView {
 
     weak var delegate: EmoticonInputViewDelegate?
     
-    fileprivate var groupList = [EmoticonGroup]()
-    fileprivate var groupInfoList = [EmoticonGroupInfo]()
+    private var groupList = [EmoticonGroup]()
+    private var groupInfoList = [EmoticonGroupInfo]()
     
     var collectionView: UICollectionView!
     var pageControl: UIPageControl!
     var toolView: EmoticonToolView!
     
     var selectIndex: Int = 0
+    
+    convenience init() {
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: kMoreInputViewHeight)
+        self.init(frame: frame)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -200,7 +208,7 @@ extension EmoticonInputView: EmoticonToolViewDelegate {
     
     // 这个是否需要直接把button事件添加到 EmoticonInputView
     func didPressSend() {
-        self.delegate?.didPressSend()
+        self.delegate?.didPressSend(self)
     }
     
     func didChangeEmoticonGroup(_ index: Int) {
@@ -214,10 +222,10 @@ extension EmoticonInputView: EmoticonPageCellDelegate {
 
     func emoticonPageCell(_ cell: EmoticonPageCell, didSelect emoticon: Emoticon?) {
         if let emoticon = emoticon {
-            print(emoticon.title ?? "")
+            self.delegate?.emoticonInputView(self, didSelect: emoticon)
         } else {
             //删除按钮
-            print("删除按钮")
+            self.delegate?.didPressDelete(self)
         }
     }
     
