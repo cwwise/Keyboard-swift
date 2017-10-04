@@ -8,9 +8,9 @@
 
 import UIKit
 
-enum ToolViewStatus {
+public enum ToolViewStatus {
     case none
-    case text
+    case keyboard
     case audio
     case emoticon
     case more
@@ -19,41 +19,35 @@ enum ToolViewStatus {
 private let kItemSpacing: CGFloat = 3
 private let kTextViewPadding: CGFloat = 6
 
-protocol ToolViewDelegate: class {
-    
-    func textViewShouldBeginEditing()
-    
+public protocol ToolViewDelegate: class {
+    // 高度变化
+    func toolView(_ toolView: ToolView, heightChange height: CGFloat)
+    // 状态变化
+    func toolView(_ toolView: ToolView, statusChange status: ToolViewStatus)
 }
 
 /// 输入框按钮
-class ToolView: UIView {
+public class ToolView: UIView {
 
-    weak var delegate: ToolViewDelegate?
+    public weak var delegate: ToolViewDelegate?
     // MARK: 属性
-    var contentText: String? {
+    public var contentText: String? {
         didSet {
             inputTextView.text = contentText
         }
     }
     
-    var showsKeyboard: Bool {
-        get {
-            return inputTextView.isFirstResponder
-        }
-        set {
-            if newValue {
-                inputTextView.becomeFirstResponder()
-            } else {
-                inputTextView.resignFirstResponder()
-            }
+    var showsKeyboard: Bool = false
+    
+    var status: ToolViewStatus = .none {
+        didSet {
+            updateStatus(status)
         }
     }
     
-    var status: ToolViewStatus = .none
-    
     /// 输入框
     lazy var inputTextView: InputTextView = {
-        let inputTextView = InputTextView(frame:CGRect.zero)
+        let inputTextView = InputTextView(frame: CGRect.zero)
         inputTextView.delegate = self
         return inputTextView
     }()
@@ -62,16 +56,16 @@ class ToolView: UIView {
     lazy var emoticonButton: UIButton = {
         let emoticonButton = UIButton(type: .custom)
         emoticonButton.autoresizingMask = [.flexibleTopMargin]
+        emoticonButton.addTarget(self, action: #selector(handelEmotionClick(_:)), for: .touchUpInside)
         emoticonButton.setNormalImage(self.kEmojiImage, highlighted:self.kEmojiImageHL)
-        
         return emoticonButton
     }()
     
     /// 文字和录音切换
-    lazy var voiceButton: UIButton =  {
+    lazy var voiceButton: UIButton = {
         let voiceButton = UIButton(type: .custom)
         voiceButton.autoresizingMask = [.flexibleTopMargin]
-        
+        voiceButton.addTarget(self, action: #selector(handelVoiceClick(_:)), for: .touchUpInside)
         voiceButton.setNormalImage(self.kVoiceImage, highlighted:self.kVoiceImageHL)
         return voiceButton
     }()
@@ -80,28 +74,29 @@ class ToolView: UIView {
     lazy var moreButton: UIButton = {
         let moreButton = UIButton(type: .custom)
         moreButton.autoresizingMask = [.flexibleTopMargin]
+        moreButton.addTarget(self, action: #selector(handelMoreClick(_:)), for: .touchUpInside)
         moreButton.setNormalImage(self.kMoreImage, highlighted:self.kMoreImageHL)
         return moreButton
     }()
     
     /// 录音按钮
     lazy var recordButton: RecordButton = {
-        let recordButton = RecordButton(frame: CGRect.zero)
+        let recordButton = RecordButton()
         return recordButton
     }()
     
     //按钮的图片
-    var kVoiceImage:UIImage = UIImage(named: "chat_toolbar_voice")!
-    var kVoiceImageHL:UIImage = UIImage(named: "chat_toolbar_voice_HL")!
-    var kEmojiImage:UIImage = UIImage(named: "chat_toolbar_emotion")!
-    var kEmojiImageHL:UIImage = UIImage(named: "chat_toolbar_emotion_HL")!
+    var kVoiceImage: UIImage? = UIImage(named: "chat_toolbar_voice")
+    var kVoiceImageHL: UIImage? = UIImage(named: "chat_toolbar_voice_HL")
     
-    //图片名称待修改
-    var kMoreImage:UIImage = UIImage(named: "chat_toolbar_more")!
-    var kMoreImageHL:UIImage = UIImage(named: "chat_toolbar_more_HL")!
+    var kEmojiImage: UIImage? = UIImage(named: "chat_toolbar_emotion")
+    var kEmojiImageHL: UIImage? = UIImage(named: "chat_toolbar_emotion_HL")
     
-    var kKeyboardImage:UIImage = UIImage(named: "chat_toolbar_keyboard")!
-    var kKeyboardImageHL:UIImage = UIImage(named: "chat_toolbar_keyboard_HL")!
+    var kMoreImage: UIImage? = UIImage(named: "chat_toolbar_more")
+    var kMoreImageHL: UIImage? = UIImage(named: "chat_toolbar_more_HL")
+    
+    var kKeyboardImage: UIImage? = UIImage(named: "chat_toolbar_keyboard")
+    var kKeyboardImageHL: UIImage? = UIImage(named: "chat_toolbar_keyboard_HL")
     
     var allowVoice: Bool = true
     var allowFaceView: Bool = true
@@ -166,37 +161,79 @@ class ToolView: UIView {
         let height: CGFloat = 36
         inputTextView.frame = CGRect(x: textViewX, y: (49 - height)/2.0,
                                      width: textViewWidth, height: height)
-        
+        recordButton.frame = inputTextView.frame
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+
+    
+    
+    @objc func handelVoiceClick(_ sender: UIButton) {
+        if status == .audio {
+            status = .keyboard
+        } else {
+            status = .audio
+        }
+    }
+    
+    @objc func handelEmotionClick(_ sender: UIButton) {
+        if status == .emoticon {
+            status = .keyboard
+        } else {
+            status = .emoticon
+        }
+    }
+    
+    @objc func handelMoreClick(_ sender: UIButton) {
+        if status == .more {
+            status = .keyboard
+        } else {
+            status = .more
+        }
     }
     
     func updateStatus(_ status: ToolViewStatus) {
         
-        if status == .text || status == .more {
+        if status == .keyboard {
             
             self.recordButton.isHidden = true
             self.inputTextView.isHidden = false
             updateVoiceButtonImage(true)
             updateEmoticonButtonImage(true)
+            updateMoreButtonImage(true)
 
-        } else if (status == .audio) {
+        }
+        else if (status == .audio) {
             self.recordButton.isHidden = false
             self.inputTextView.isHidden = true
             
             updateVoiceButtonImage(false)
+            updateMoreButtonImage(true)
             updateEmoticonButtonImage(true)
-        } else if (status == .emoticon) {
+        }
+        else if (status == .more) {
+         
+            self.recordButton.isHidden = true
+            self.inputTextView.isHidden = false
+            updateVoiceButtonImage(true)
+            updateMoreButtonImage(false)
+            updateEmoticonButtonImage(true)
+        }
+        else if (status == .emoticon) {
             
             self.recordButton.isHidden = true
             self.inputTextView.isHidden = false
             updateVoiceButtonImage(true)
-            updateEmoticonButtonImage(true)
+            updateMoreButtonImage(true)
+            updateEmoticonButtonImage(false)
         }
         
+        delegate?.toolView(self, statusChange: status)
         
+        print(status)
     }
     
     
@@ -209,6 +246,11 @@ class ToolView: UIView {
         self.emoticonButton.setImage(selected ? kEmojiImage:kKeyboardImage, for: .normal)
         self.emoticonButton.setImage(selected ? kEmojiImageHL:kKeyboardImageHL, for: .highlighted)
     }
+    
+    func updateMoreButtonImage(_ selected: Bool) {
+        self.moreButton.setImage(selected ? kMoreImage:kKeyboardImage, for: .normal)
+        self.moreButton.setImage(selected ? kMoreImageHL:kKeyboardImageHL, for: .highlighted)
+    }
 
 }
 
@@ -216,10 +258,15 @@ class ToolView: UIView {
 
 extension ToolView : UITextViewDelegate {
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        self.delegate?.textViewShouldBeginEditing()
+    // 开始编辑设置为键盘模式
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        if status != .keyboard {
+           status = .keyboard
+        }
         return true
     }
+    
+    
     
 }
 

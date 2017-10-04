@@ -24,8 +24,7 @@ struct EmoticonGroupInfo {
 }
 
 private let kEmoticonHeight: CGFloat = 50
-private let kToolViewHeight: CGFloat = 37
-let kMoreInputViewHeight: CGFloat = 249
+private let kEmoticonToolViewHeight: CGFloat = 37
 
 public protocol EmoticonInputViewDelegate: class {
     
@@ -50,7 +49,7 @@ public class EmoticonInputView: UIView {
     var selectIndex: Int = 0
     
     convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: kMoreInputViewHeight)
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: kInputViewHeight)
         self.init(frame: frame)
     }
     
@@ -95,7 +94,8 @@ public class EmoticonInputView: UIView {
     }
     
     func setupToolView() {
-        let frame = CGRect(x: 0, y: self.height - kToolViewHeight, width: self.bounds.width, height: kToolViewHeight)
+        let frame = CGRect(x: 0, y: self.height - kEmoticonToolViewHeight,
+                           width: self.bounds.width, height: kEmoticonToolViewHeight)
         toolView = EmoticonToolView(frame: frame)
         toolView.delegate = self
         self.addSubview(toolView)

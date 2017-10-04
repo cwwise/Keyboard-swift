@@ -9,9 +9,8 @@
 import UIKit
 
 extension UIButton {
-    public func setNormalImage(_ image: UIImage, highlighted hlimage: UIImage) {
+    public func setNormalImage(_ image: UIImage?, highlighted hlimage: UIImage?) {
         self.setImage(image, for: .normal)
-        self.setImage(hlimage, for: [.highlighted,.selected])
-        self.setImage(hlimage, for: .selected)
+        self.setImage(hlimage, for: .highlighted)
     }
 }

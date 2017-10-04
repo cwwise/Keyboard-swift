@@ -16,11 +16,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 400))
+        self.view.addSubview(contentView)
+        
+        
        // testMore()
         testKeyboard()
         //testEmoticon()
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(test))
-        //self.view.addGestureRecognizer(tapGesture)
+        contentView.addGestureRecognizer(tapGesture)
     }
     
     @objc func test() {

@@ -12,7 +12,6 @@
 		1F8D6D1F1F20BD4B00E8A6E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D1E1F20BD4B00E8A6E6 /* ViewController.swift */; };
 		1F8D6D221F20BD4B00E8A6E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D6D201F20BD4B00E8A6E6 /* Main.storyboard */; };
 		1F8D6D241F20BD4B00E8A6E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D6D231F20BD4B00E8A6E6 /* Assets.xcassets */; };
-		1F8D6D271F20BD4B00E8A6E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D6D251F20BD4B00E8A6E6 /* LaunchScreen.storyboard */; };
 		1F8D6D321F20BD4B00E8A6E6 /* KeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D6D311F20BD4B00E8A6E6 /* KeyboardTests.swift */; };
 		1FA4CFE01F5323B600CCF3B5 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFCA1F5323B600CCF3B5 /* UIButton+Extension.swift */; };
 		1FA4CFE11F5323B600CCF3B5 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFCB1F5323B600CCF3B5 /* UIView+Frame.swift */; };
@@ -34,6 +33,7 @@
 		1FA4CFF11F5323B600CCF3B5 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFDE1F5323B600CCF3B5 /* Keyboard.swift */; };
 		1FA4CFF21F5323B600CCF3B5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA4CFDF1F5323B600CCF3B5 /* RecordButton.swift */; };
 		46034C071B6BE30E3D8BDE26 /* Pods_KeyboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDC4576375F1B36691CD37E7 /* Pods_KeyboardTests.framework */; };
+		8C78FE061F849C5E0077D5BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C78FE051F849C5E0077D5BD /* LaunchScreen.storyboard */; };
 		8C8A32B41F20E6F300FBC8DD /* emoticons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +53,6 @@
 		1F8D6D1E1F20BD4B00E8A6E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1F8D6D211F20BD4B00E8A6E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F8D6D231F20BD4B00E8A6E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1F8D6D261F20BD4B00E8A6E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F8D6D281F20BD4B00E8A6E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F8D6D2D1F20BD4B00E8A6E6 /* KeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D6D311F20BD4B00E8A6E6 /* KeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardTests.swift; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		2FEA2AC8F56C478E3011B3AF /* Pods-Keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Keyboard/Pods-Keyboard.release.xcconfig"; sourceTree = "<group>"; };
 		62C713CA1A6AB6D8BF4C8E12 /* Pods-KeyboardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeyboardTests/Pods-KeyboardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65AE0BCC6D00D814A0FD9355 /* Pods_Keyboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Keyboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C78FE051F849C5E0077D5BD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = emoticons.bundle; sourceTree = "<group>"; };
 		B3B717A5E208B2CF3246B6EA /* Pods-KeyboardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyboardTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KeyboardTests/Pods-KeyboardTests.release.xcconfig"; sourceTree = "<group>"; };
 		CFE1B148E88855663DBDBA95 /* Pods-Keyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keyboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Keyboard/Pods-Keyboard.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,8 +145,8 @@
 				1FA4CFC81F5323B600CCF3B5 /* Sources */,
 				8C8A32B31F20E6F300FBC8DD /* emoticons.bundle */,
 				1F8D6D201F20BD4B00E8A6E6 /* Main.storyboard */,
+				8C78FE051F849C5E0077D5BD /* LaunchScreen.storyboard */,
 				1F8D6D231F20BD4B00E8A6E6 /* Assets.xcassets */,
-				1F8D6D251F20BD4B00E8A6E6 /* LaunchScreen.storyboard */,
 				1F8D6D281F20BD4B00E8A6E6 /* Info.plist */,
 			);
 			path = Keyboard;
@@ -320,8 +320,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F8D6D271F20BD4B00E8A6E6 /* LaunchScreen.storyboard in Resources */,
 				8C8A32B41F20E6F300FBC8DD /* emoticons.bundle in Resources */,
+				8C78FE061F849C5E0077D5BD /* LaunchScreen.storyboard in Resources */,
 				1F8D6D241F20BD4B00E8A6E6 /* Assets.xcassets in Resources */,
 				1F8D6D221F20BD4B00E8A6E6 /* Main.storyboard in Resources */,
 			);
@@ -498,14 +498,6 @@
 				1F8D6D211F20BD4B00E8A6E6 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		1F8D6D251F20BD4B00E8A6E6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F8D6D261F20BD4B00E8A6E6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
