@@ -16,7 +16,7 @@ public enum MoreItemType: Int {
     case videoCall
     case wallet
     case transfer
-    case position
+    case location
     case favorite
     case businessCard
     case voice
@@ -24,17 +24,17 @@ public enum MoreItemType: Int {
 }
 
 
-class MoreItem: NSObject {
+public class MoreItem: NSObject {
 
     public var type: MoreItemType
     public var title: String
-    public var imagePath: String
+    public var imagename: String
     
     public init(title:String,
-                imagePath:String,
+                imagename:String,
                 type:MoreItemType) {
         self.title = title
-        self.imagePath = imagePath
+        self.imagename = imagename
         self.type = type
     }
     
