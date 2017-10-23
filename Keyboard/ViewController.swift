@@ -11,26 +11,27 @@ import UIKit
 class ViewController: UIViewController {
 
     var tapGesture: UITapGestureRecognizer!
-    
+    var keyboard: Keyboard!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
        // testMore()
-        //testKeyboard()
-        testEmoticon()
+        testKeyboard()
+        //testEmoticon()
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(test))
         //self.view.addGestureRecognizer(tapGesture)
     }
     
     @objc func test() {
         self.view.endEditing(true)
+        keyboard.endInputing()
     }
     
     func testKeyboard() {
         
         let frame = CGRect(x: 0, y: self.view.height-49, width: self.view.width, height: 216+49)
-        let keyboard = Keyboard(frame: frame)
-        keyboard.backgroundColor = UIColor.orange
+        keyboard = Keyboard(frame: frame)
         self.view.addSubview(keyboard)
         
         var groupList = [EmoticonGroup]()
@@ -38,9 +39,9 @@ class ViewController: UIViewController {
             groupList.append(qqemoticon)
         }
         
-        if let qqemoticon = EmoticonGroup(identifier: "com.qq.classic") {
-            qqemoticon.emoticons.reverse()
-            groupList.append(qqemoticon)
+        if let liemoticon = EmoticonGroup(identifier: "cn.com.a-li") {
+            liemoticon.type = .big
+            groupList.append(liemoticon)
         }
         keyboard.emoticonInputView.loadData(groupList)
         
@@ -103,7 +104,6 @@ class ViewController: UIViewController {
         let height: CGFloat = 216
         let frame = CGRect(x: 0, y: self.view.height - 2*height - 10, width: self.view.width, height: height)
         let inputView = MoreInputView(frame: frame)
-        inputView.backgroundColor = UIColor.orange
         self.view.addSubview(inputView)
         
         inputView.loadData(chatMoreKeyboardData)

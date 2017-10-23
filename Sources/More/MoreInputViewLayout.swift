@@ -53,6 +53,7 @@ class MoreInputViewLayout: UICollectionViewFlowLayout {
         // 计算item 大小 
         var itemWidth = (collectionViewWidth - 2*sectionInset.left - CGFloat(horizontalItemsCount-1)*minimumInteritemSpacing)/CGFloat(horizontalItemsCount)
         itemWidth = CGFloatPixelRound(itemWidth)
+        self.itemSize = CGSize(width: itemWidth, height: 93)
         
         let padding = (collectionViewWidth - CGFloat(horizontalItemsCount) * itemWidth - CGFloat(horizontalItemsCount-1)*minimumInteritemSpacing) / 2.0
         let paddingLeft = CGFloatPixelRound(padding)

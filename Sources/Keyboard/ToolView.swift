@@ -20,7 +20,9 @@ private let kItemSpacing: CGFloat = 3
 private let kTextViewPadding: CGFloat = 6
 
 protocol ToolViewDelegate: class {
+    
     func textViewShouldBeginEditing()
+    
 }
 
 /// 输入框按钮
@@ -113,13 +115,19 @@ class ToolView: UIView {
     func setupUI() {
         
         self.autoresizingMask = [UIViewAutoresizing.flexibleWidth,UIViewAutoresizing.flexibleTopMargin]
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor(hex: "#E4EBF0")
         
         addSubview(self.voiceButton)
         addSubview(self.emoticonButton)
         addSubview(self.moreButton)
         addSubview(self.recordButton)
         addSubview(self.inputTextView)
+        
+        // 分割线
+        let line = UIView()
+        line.backgroundColor = UIColor(hex: "#e9e9e9")
+        line.frame = CGRect(x: 0, y: self.frame.height-1, width: self.frame.width, height: 1.0/UIScreen.main.scale)
+        addSubview(line)
         
         let toolBarHeight = self.height
         
