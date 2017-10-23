@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         //self.view.addGestureRecognizer(tapGesture)
     }
     
-    func test() {
+    @objc func test() {
         self.view.endEditing(true)
     }
     

@@ -86,7 +86,7 @@ class Keyboard: UIView {
     }
     
     
-    func keyboardWillChangeFrame(_ notification: Notification) {
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
         
         if !(self.window != nil) {
             return
@@ -131,11 +131,11 @@ class Keyboard: UIView {
     }
     
     // MARK: Action
-    func handelVoiceClick(_ sender: UIButton) {
+    @objc func handelVoiceClick(_ sender: UIButton) {
         
     }
     
-    func handelEmotionClick(_ sender: UIButton) {
+    @objc func handelEmotionClick(_ sender: UIButton) {
         
         if self.status != .emoticon {
             
@@ -156,7 +156,7 @@ class Keyboard: UIView {
         
     }
     
-    func handelMoreClick(_ sender: UIButton) {
+    @objc func handelMoreClick(_ sender: UIButton) {
         
         if self.status != .more {
             

@@ -1,7 +1,7 @@
 PODS:
   - Hue (2.0.1)
-  - Kingfisher (3.11.0)
-  - SnapKit (3.2.0)
+  - Kingfisher (4.0.1)
+  - SnapKit (4.0.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -12,8 +12,8 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
-  Kingfisher: c8911a7672c6217dec8c0520fb6e76ec4b7e0780
-  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  Kingfisher: b771785e9461ed4b8686d40e7145f9e58100cb24
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: fc12860628aacddf2cdf245d8ef26daf4092288d
