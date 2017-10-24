@@ -9,25 +9,25 @@
 import UIKit
 
 /// 点击事件
-public protocol KeyboardDelegate {
+protocol KeyboardDelegate {
     
     
     
 }
 
-public enum KeyboardType {
+enum KeyboardType {
     case normal
     case comment
 }
 
-let kInputViewHeight: CGFloat = 216
-let kToolViewHeight: CGFloat = 49
+private let kInputViewHeight: CGFloat = 216
+private let kToolViewHeight: CGFloat = 49
 
-public class Keyboard: UIView {
-    // 类型
-    public var type: KeyboardType = .normal
-    // 状态
-    public var status: ToolViewStatus = .none
+class Keyboard: UIView {
+    
+    var type: KeyboardType = .normal
+
+    var status: ToolViewStatus = .none
     
     var keyBoardFrameTop: CGFloat = 0
     // 屏蔽模态视图中 收到其他界面的键盘通知
@@ -73,7 +73,7 @@ public class Keyboard: UIView {
         }
     }
     
-    override public func didMoveToWindow() {
+    override func didMoveToWindow() {
         setup()
     }
     
@@ -83,78 +83,58 @@ public class Keyboard: UIView {
         self.addSubview(emoticonInputView)
         self.addSubview(moreInputView)
 
-        registerKeyboard()
+        toolView.emoticonButton.addTarget(self, action: #selector(handelEmotionClick(_:)), for: .touchUpInside)
+        toolView.voiceButton.addTarget(self, action: #selector(handelVoiceClick(_:)), for: .touchUpInside)
+        toolView.moreButton.addTarget(self, action: #selector(handelMoreClick(_:)), for: .touchUpInside)        
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShowFrame(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+     
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHideFrame(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        
         refreshStatus(.keyboard)
     }
     
-    func registerKeyboard() {
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillChangeFrame(_:)),
-                                               name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        
-        
-        
-    }
-
-    
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func keyboardWillChangeFrame(_ notification: Notification) {
-        
-        guard let userInfo = notification.userInfo,
-            let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue,
-            let beginFrameValue = userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue,
-            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
-            let curve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber else {
-                return
-        }
-        
-        let options = UIViewAnimationOptions(rawValue: (curve.uintValue << 16))
-        let durationTime = duration.doubleValue
-        let beginFrame = beginFrameValue.cgRectValue
-        let endFrame = endFrameValue.cgRectValue
-
-        print(beginFrame)
-        print(endFrame)
-
-        UIView.animate(withDuration: durationTime,
-                       delay: 0, options: options,
-                       animations: {
-                      
-                        
-                        
-                        
-                        
-        }) { (finished) in
-            
-            
-        }
-        
-        
-        self.keyBoardFrameTop = endFrameValue.cgRectValue.minY
-    }
     
-    @objc func keyboardWillShowFrame(_ notification: Notification) {
+    @objc
+    func keyboardWillChangeFrame(_ notification: Notification) {
+        
+        if !(self.window != nil) {
+            return
+        }
         
         let userInfo = notification.userInfo!
         let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
        // let beginFrameValue = userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue
-      //  print(endFrameValue)
 
+        self.keyBoardFrameTop = endFrameValue.cgRectValue.minY
+    }
+    
+    @objc
+    func keyboardWillShowFrame(_ notification: Notification) {
+        
+        let userInfo = notification.userInfo!
+        let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+       // let beginFrameValue = userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue
+        
         UIView.animate(withDuration: 0.25) {
             self.top = endFrameValue.cgRectValue.minY - kToolViewHeight
         }
     }
     
-    @objc func keyboardWillHideFrame(_ notification: Notification) {
+    @objc
+    func keyboardWillHideFrame(_ notification: Notification) {
         // 收到键盘消失
         let userInfo = notification.userInfo!
         let endFrameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
-       // print(endFrameValue)
-
         // 判断情况 如果键盘模式和语音 则下落
         if self.status == .keyboard || self.status == .audio {
             
@@ -182,11 +162,13 @@ public class Keyboard: UIView {
     }
     
     // MARK: Action
-    @objc func handelVoiceClick(_ sender: UIButton) {
+    @objc
+    func handelVoiceClick(_ sender: UIButton) {
         
     }
     
-    @objc func handelEmotionClick(_ sender: UIButton) {
+    @objc
+    func handelEmotionClick(_ sender: UIButton) {
         
         if self.status != .emoticon {
             
@@ -211,7 +193,8 @@ public class Keyboard: UIView {
         
     }
     
-    @objc func handelMoreClick(_ sender: UIButton) {
+    @objc
+    func handelMoreClick(_ sender: UIButton) {
         
         if self.status != .more {
             
@@ -252,25 +235,16 @@ extension Keyboard {
 
 extension Keyboard: ToolViewDelegate {
     
-    public func toolView(_ toolView: ToolView, heightChange height: CGFloat) {
+    func toolView(_ toolView: ToolView, heightChange height: CGFloat) {
         
     }
     
-    public func toolView(_ toolView: ToolView, statusChange status: ToolViewStatus) {
-    
-        // 显示更多键盘
-        if status == .more {
-            
-            
-        }
-        
-        
-        
-        
+    func toolView(_ toolView: ToolView, statusChange status: ToolViewStatus) {
         
     }
     
-    public func textViewShouldBeginEditing() {
+    
+    func textViewShouldBeginEditing() {
         self.status = .keyboard
         UIView.animate(withDuration: 0.25, animations: {
             self.emoticonInputView.alpha = 0
@@ -287,17 +261,17 @@ extension Keyboard: ToolViewDelegate {
 
 // MARK: - EmoticonInputViewDelegate
 extension Keyboard: EmoticonInputViewDelegate {
-    public func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon) {
+    func emoticonInputView(_ inputView: EmoticonInputView, didSelect emoticon: Emoticon) {
         
     }
     
-    public func didPressDelete(_ inputView: EmoticonInputView) {
+    func didPressDelete(_ inputView: EmoticonInputView) {
         
     }
     
-    public func didPressSend(_ inputView: EmoticonInputView) {
+    func didPressSend(_ inputView: EmoticonInputView) {
         
-    }    
+    }
 }
 
 // MARK: - MoreInputViewDelegate
